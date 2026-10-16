@@ -90,8 +90,8 @@ export default function Layout({ children }) {
               <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-white">Quick Links</h2>
               <nav className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-300">
                 <Link to="/" className="transition hover:text-cyan-200">Home</Link>
-                <a href="/about" className="transition hover:text-cyan-200">About</a>
-                <a href="#programs" className="transition hover:text-cyan-200">Programs</a>
+                <Link to="/about" className="transition hover:text-cyan-200">About</Link>
+                <Link to="/programs" className="transition hover:text-cyan-200">Programs</Link>
                 <Link to="/webinars" className="transition hover:text-cyan-200">Webinars</Link>
               </nav>
             </div>
@@ -99,7 +99,7 @@ export default function Layout({ children }) {
             <div>
               <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-white">Support Links</h2>
               <nav className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-300">
-                <a href="#contact" className="transition hover:text-cyan-200">Contact</a>
+                <Link to="/contact" className="transition hover:text-cyan-200">Contact</Link>
                 <Link to="/faq" className="transition hover:text-cyan-200">FAQ</Link>
               </nav>
             </div>
