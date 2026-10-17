@@ -38,7 +38,7 @@ async function getAccessToken(clientEmail, privateKey) {
   const result = await response.json()
 
   if (!response.ok || typeof result.access_token !== 'string') {
-    console.error('Google OAuth token request failed:', response.status)
+    console.error('Google OAuth token request failed:', response.status, result.error || 'Unknown Google OAuth error')
     throw new Error('Unable to connect to the message spreadsheet.')
   }
 
@@ -79,9 +79,15 @@ export default async function handler(req, res) {
   const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
   const spreadsheetId = process.env.GOOGLE_SHEET_ID
 
-  if (!clientEmail || !privateKey || !spreadsheetId) {
-    console.error('Google Sheets contact integration is missing required environment variables.')
-    return sendJson(res, 500, { error: 'The contact form is temporarily unavailable. Please try again later.' })
+  const missingVariables = [
+    !clientEmail && 'GOOGLE_SERVICE_ACCOUNT_EMAIL',
+    !privateKey && 'GOOGLE_PRIVATE_KEY',
+    !spreadsheetId && 'GOOGLE_SHEET_ID',
+  ].filter(Boolean)
+
+  if (missingVariables.length > 0) {
+    console.error('Google Sheets contact integration is missing environment variables:', missingVariables.join(', '))
+    return sendJson(res, 503, { error: 'The contact form is not fully configured yet. Please try again later.' })
   }
 
   try {
@@ -100,7 +106,8 @@ export default async function handler(req, res) {
     })
 
     if (!response.ok) {
-      console.error('Google Sheets append failed:', response.status)
+      const errorBody = await response.json().catch(() => ({}))
+      console.error('Google Sheets append failed:', response.status, errorBody.error?.message || 'Unknown Google Sheets error')
       return sendJson(res, 502, { error: 'Unable to save your message right now. Please try again later.' })
     }
 
