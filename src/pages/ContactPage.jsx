@@ -20,14 +20,21 @@ export default function ContactPage() {
           message: formData.get('message'),
         }),
       })
-      const result = await response.json()
+      const contentType = response.headers.get('content-type') || ''
+      const result = contentType.includes('application/json') ? await response.json() : null
 
       if (!response.ok) {
-        throw new Error(result.error || 'Unable to send your message. Please try again.')
+        throw new Error(result?.error || 'The contact service is unavailable. Please try again later.')
+      }
+      if (!result?.success) {
+        throw new Error('The contact service is unavailable. Please try again later.')
       }
 
       form.reset()
-      setSubmission({ status: 'success', message: 'Thanks for reaching out. Your message has been sent.' })
+      setSubmission({
+        status: 'success',
+        message: 'Thank you for your message or suggestion! Your message has been sent successfully. Our team will contact you soon.',
+      })
     } catch (error) {
       setSubmission({
         status: 'error',
@@ -61,7 +68,8 @@ export default function ContactPage() {
         .contact-button { display: inline-flex; align-items: center; gap: 10px; margin-top: 24px; border: 1px solid rgba(103,232,249,.55); border-radius: 999px; padding: 13px 21px; color: #04111f; background: var(--contact-cyan); font-size: .9rem; font-weight: 800; transition: transform .25s ease, box-shadow .25s ease; }
         .contact-button:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(34,211,238,.4); }
         .contact-button:disabled { cursor: wait; opacity: .7; }
-        .contact-status { margin-top: 16px; color: #a5f3fc; font-size: .9rem; line-height: 1.6; }
+        .contact-status { margin-top: 16px; font-size: .9rem; line-height: 1.6; }
+        .contact-status--success { color: #86efac; }
         .contact-status--error { color: #fca5a5; }
         .contact-connect { align-self: start; padding: 30px; }
         .contact-connect p { margin-top: 15px; color: #a9bad3; line-height: 1.8; }
@@ -69,7 +77,7 @@ export default function ContactPage() {
         @keyframes contact-drift { to { background-position: 60px 40px, -40px 50px, 30px -35px; } }
         @media (prefers-reduced-motion: reduce) { .contact-page *, .contact-page *::before, .contact-page *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
       `}</style>
-      <section className="contact-hero"><div className="contact-stars absolute inset-0" aria-hidden="true" /><div className="contact-grid absolute inset-0 opacity-50" aria-hidden="true" /><div className="contact-container"><div className="contact-content"><div className="contact-label"><span />Start a conversation<span /></div><h1 className="contact-title">Contact Skill2Career</h1><p className="contact-lede">Have a question, idea, or want to connect with us? We&apos;d love to hear from you.</p></div><div className="contact-layout"><form className="contact-card contact-form" onSubmit={handleSubmit}><h2>Send a message</h2><div className="contact-field"><label htmlFor="contact-name">Name</label><input id="contact-name" name="name" type="text" autoComplete="name" maxLength={100} required /></div><div className="contact-field"><label htmlFor="contact-email">Email</label><input id="contact-email" name="email" type="email" autoComplete="email" maxLength={254} required /></div><div className="contact-field"><label htmlFor="contact-message">Message</label><textarea id="contact-message" name="message" maxLength={5000} required /></div><button className="contact-button" type="submit" disabled={submission.status === 'submitting'}>{submission.status === 'submitting' ? 'Sending…' : 'Send Message'} <span aria-hidden="true">-&gt;</span></button>{submission.message && <p className={`contact-status${submission.status === 'error' ? ' contact-status--error' : ''}`} role="status" aria-live="polite">{submission.message}</p>}</form><aside className="contact-card contact-connect"><h2>Let&apos;s Connect</h2><p>Use the form to send a message. Official contact details will be shared here when available.</p></aside></div></div></section>
+      <section className="contact-hero"><div className="contact-stars absolute inset-0" aria-hidden="true" /><div className="contact-grid absolute inset-0 opacity-50" aria-hidden="true" /><div className="contact-container"><div className="contact-content"><div className="contact-label"><span />Start a conversation<span /></div><h1 className="contact-title">Contact Skill2Career</h1><p className="contact-lede">Have a question, idea, or want to connect with us? We&apos;d love to hear from you.</p></div><div className="contact-layout"><form className="contact-card contact-form" onSubmit={handleSubmit}><h2>Send a message</h2><div className="contact-field"><label htmlFor="contact-name">Name</label><input id="contact-name" name="name" type="text" autoComplete="name" maxLength={100} required /></div><div className="contact-field"><label htmlFor="contact-email">Email</label><input id="contact-email" name="email" type="email" autoComplete="email" maxLength={254} required /></div><div className="contact-field"><label htmlFor="contact-message">Message</label><textarea id="contact-message" name="message" maxLength={5000} required /></div><button className="contact-button" type="submit" disabled={submission.status === 'submitting'}>{submission.status === 'submitting' ? 'Sending…' : 'Send Message'} <span aria-hidden="true">-&gt;</span></button>{submission.message && <p className={`contact-status ${submission.status === 'success' ? 'contact-status--success' : ''} ${submission.status === 'error' ? 'contact-status--error' : ''}`} role={submission.status === 'error' ? 'alert' : 'status'} aria-live="polite">{submission.message}</p>}</form><aside className="contact-card contact-connect"><h2>Let&apos;s Connect</h2><p>Use the form to send a message. Official contact details will be shared here when available.</p></aside></div></div></section>
     </div>
   )
 }

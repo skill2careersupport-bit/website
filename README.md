@@ -20,6 +20,14 @@ Contact submissions are sent to the Vercel serverless function at `/api/contact`
 
 Do not expose the service account key in `VITE_*` variables, frontend code, or Git. The API validates submissions and appends values using the Sheets API's `RAW` input mode.
 
+### Troubleshooting contact submissions
+
+- If the form reports that it is not configured, verify all three environment variables are set for the Vercel deployment environment and redeploy after changing them.
+- If Google returns an authorization error, confirm the Sheets API is enabled and the spreadsheet is shared with the service account email as an Editor.
+- Confirm the spreadsheet ID is correct and the worksheet tab is named exactly `Contact Messages`.
+- `.env` files are intentionally ignored by Git. Setting a local `.env` does not configure Vercel; add the values in the Vercel project settings instead.
+- The regular Vite development server does not provide `/api/contact`. To test the API locally, run the project with the Vercel CLI and configure the same variables securely.
+
 ## Development
 
 ```sh

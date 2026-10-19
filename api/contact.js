@@ -69,8 +69,13 @@ export default async function handler(req, res) {
 
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim()
   const privateKey = process.env.GOOGLE_PRIVATE_KEY
-    ?.replace(/\\n/g, '\n')
-    .trim()
+  ?.replace(/^["']|["']$/g, '')
+  ?.replace(/\\n/g, '\n')
+  ?.trim();
+  // Add these lines temporarily for debugging:
+  console.log("DEBUG Email:", clientEmail);
+  console.log("DEBUG Key starts correctly:", privateKey?.startsWith("-----BEGIN PRIVATE KEY-----"));
+  console.log("DEBUG Key ends correctly:", privateKey?.endsWith("-----END PRIVATE KEY-----"));
   const spreadsheetId = process.env.GOOGLE_SHEET_ID?.trim()
 
   const missingVariables = [
