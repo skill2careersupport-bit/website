@@ -32,7 +32,7 @@ export default function WebinarsPage() {
         .webinars-title { margin: 22px 0 0; color: white; font-size: clamp(3rem, 7vw, 6.4rem); line-height: .98; letter-spacing: -.04em; font-weight: 900; }
         .webinars-lede { max-width: 680px; margin: 28px 0 0; color: #c7d7ed; font-size: clamp(1.05rem, 2vw, 1.28rem); line-height: 1.8; }
         .webinars-section { padding: 108px 0 120px; background: #050b1a; }
-        .webinars-section--deep { background: #030712; }
+        .webinars-section--deep { padding-top: 48px; background: #030712; }
         .webinars-heading { max-width: 760px; margin: 14px 0 0; color: white; font-size: clamp(2.1rem, 4vw, 4rem); line-height: 1.05; letter-spacing: -.035em; font-weight: 900; }
         .webinars-copy { max-width: 720px; margin-top: 20px; color: #a9bad3; font-size: 1.05rem; line-height: 1.8; }
         .webinars-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
@@ -53,7 +53,7 @@ export default function WebinarsPage() {
         .webinars-feedback-card h2 + p { margin-top: 6px; color: var(--webinars-cyan); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
         .webinars-feedback-card .webinars-quote { margin-top: 18px; color: #e5eefb; font-size: 1rem; line-height: 1.8; }
         @media (max-width: 900px) { .webinars-cards { grid-template-columns: 1fr; } }
-        @media (max-width: 700px) { .webinars-container { width: min(100% - 32px, 600px); }.webinars-hero { min-height: 520px; }.webinars-hero__content { padding: 92px 0; } }
+        @media (max-width: 700px) { .webinars-container { width: min(100% - 32px, 600px); }.webinars-hero { min-height: 520px; }.webinars-hero__content { padding: 92px 0; }.webinars-section--deep { padding-top: 40px; } }
         @keyframes webinars-drift { to { background-position: 60px 40px, -40px 50px, 30px -35px; } }
         @media (prefers-reduced-motion: reduce) { .webinars-page *, .webinars-page *::before, .webinars-page *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
       `}</style>
