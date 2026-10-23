@@ -1,6 +1,140 @@
 import earthImage from '../assets/earth-space.jpg'
+import { Link } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
 
 export default function HomePage() {
+  const carouselRef = useRef(null)
+  const isInteractingRef = useRef(false)
+  const lastScrollLeftRef = useRef(0)
+
+  const categories = [
+    {
+      title: 'Career Guidance',
+      description: 'Discover your strengths and find a clear direction for the road ahead.',
+      href: '#career-guidance',
+      iconTone: 'bg-blue-50 text-primary group-hover:bg-primary',
+      linkTone: 'text-primary',
+      icon: <><circle cx="12" cy="7" r="3" /><path d="M5 20a7 7 0 0 1 14 0M17 4.5a3 3 0 0 1 0 5.1M19 13a5 5 0 0 1 2 4" /></>,
+    },
+    {
+      title: 'Coding & Programming',
+      description: 'Learn to think like a builder and create with the language of technology.',
+      href: '#coding',
+      iconTone: 'bg-cyan-50 text-cyan-600 group-hover:bg-cyan-500',
+      linkTone: 'text-cyan-600',
+      icon: <path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14" />,
+    },
+    {
+      title: 'AI & Emerging Technology',
+      description: 'Explore the ideas and tools shaping how we learn, work, and innovate.',
+      href: '#ai-technology',
+      iconTone: 'bg-violet-50 text-violet-600 group-hover:bg-violet-600',
+      linkTone: 'text-violet-600',
+      icon: <><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" /><circle cx="12" cy="12" r="4" /><path d="M14.5 9.5 17 7" /></>,
+    },
+    {
+      title: 'College Readiness',
+      description: 'Prepare for college life with stronger habits, choices, and confidence.',
+      href: '#college-readiness',
+      iconTone: 'bg-amber-50 text-amber-600 group-hover:bg-amber-500',
+      linkTone: 'text-amber-600',
+      icon: <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V5a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 5.5v14Z" /><path d="M8 7h7M8 11h7" /></>,
+    },
+    {
+      title: 'Future-Ready Skills',
+      description: 'Grow the communication, problem-solving, and digital skills tomorrow demands.',
+      href: '#future-skills',
+      iconTone: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-500',
+      linkTone: 'text-emerald-600',
+      icon: <><path d="M12 3 4 7l8 4 8-4-8-4Z" /><path d="m4 12 8 4 8-4M4 17l8 4 8-4" /></>,
+    },
+    {
+      title: 'Webinars & Workshops',
+      description: 'Learn from mentors and industry voices through practical, live experiences.',
+      href: '#events',
+      iconTone: 'bg-rose-50 text-rose-600 group-hover:bg-rose-500',
+      linkTone: 'text-rose-600',
+      icon: <><rect height="14" rx="2" width="18" x="3" y="5" /><path d="m10 9 5 3-5 3V9ZM7 19v2M17 19v2" /></>,
+    },
+  ]
+
+  const renderCategoryCards = (isDuplicate = false) => categories.map((category) => (
+    <article
+      className="programs-carousel__card group rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-blue-200 hover:shadow-[0_22px_45px_rgba(37,99,235,0.13)]"
+      key={`${isDuplicate ? 'duplicate-' : ''}${category.title}`}
+    >
+      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${category.iconTone} transition group-hover:text-white`}>
+        <svg aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24">{category.icon}</svg>
+      </div>
+      <h3 className="mt-5 text-lg font-bold leading-snug text-navy">{category.title}</h3>
+      <p className="mt-3 text-sm leading-7 text-slate-600">{category.description}</p>
+      <a href={category.href} tabIndex={isDuplicate ? -1 : undefined} className={`mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold transition group-hover:gap-3 ${category.linkTone}`}>
+        Learn More <span aria-hidden="true">→</span>
+      </a>
+    </article>
+  ))
+
+  useEffect(() => {
+    const carousel = carouselRef.current
+    const firstGroup = carousel?.querySelector('.programs-carousel__group')
+    const track = carousel?.querySelector('.programs-carousel__track')
+    if (!carousel || !firstGroup || !track) return undefined
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const hoverCapable = window.matchMedia('(hover: hover)')
+    const getLoopDistance = () => {
+      const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0
+      return firstGroup.getBoundingClientRect().width + gap
+    }
+
+    carousel.scrollLeft = 0
+    lastScrollLeftRef.current = carousel.scrollLeft
+
+    let frameId
+    let previousTime
+    let pendingScroll = 0
+    const animate = (time) => {
+      if (previousTime === undefined) previousTime = time
+      const elapsed = Math.min(time - previousTime, 50)
+      previousTime = time
+
+      const isHovered = hoverCapable.matches && carousel.matches(':hover')
+      const hasFocus = carousel.contains(document.activeElement)
+      if (!reducedMotion.matches && !isInteractingRef.current && !isHovered && !hasFocus) {
+        pendingScroll += elapsed * 0.03
+        if (pendingScroll >= 1) {
+          carousel.scrollLeft = Math.round(carousel.scrollLeft + pendingScroll)
+          pendingScroll = 0
+          const loopDistance = getLoopDistance()
+          if (carousel.scrollLeft >= loopDistance) carousel.scrollLeft -= loopDistance
+          lastScrollLeftRef.current = carousel.scrollLeft
+        }
+      }
+
+      frameId = window.requestAnimationFrame(animate)
+    }
+
+    const handleScroll = () => {
+      pendingScroll = 0
+      const loopDistance = getLoopDistance()
+      const currentScrollLeft = carousel.scrollLeft
+      if (currentScrollLeft >= loopDistance && currentScrollLeft > lastScrollLeftRef.current) {
+        carousel.scrollLeft = currentScrollLeft - loopDistance
+      } else if (currentScrollLeft <= 0 && currentScrollLeft < lastScrollLeftRef.current) {
+        carousel.scrollLeft = currentScrollLeft + loopDistance
+      }
+      lastScrollLeftRef.current = carousel.scrollLeft
+    }
+
+    carousel.addEventListener('scroll', handleScroll, { passive: true })
+    frameId = window.requestAnimationFrame(animate)
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      carousel.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   return (
     <>
       <section
@@ -57,13 +191,13 @@ export default function HomePage() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a href="#programs" className="inline-flex items-center justify-center gap-3 rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-blue-700">
+            <Link to="/programs" className="inline-flex items-center justify-center gap-3 rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-blue-700">
               Explore Programs
               <span aria-hidden="true">→</span>
-            </a>
-            <a href="#events" className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-6 py-3.5 text-sm font-bold text-slate-700 transition hover:border-primary hover:text-primary">
+            </Link>
+            <Link to="/webinars" className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-6 py-3.5 text-sm font-bold text-slate-700 transition hover:border-primary hover:text-primary">
               Upcoming Events
-            </a>
+            </Link>
           </div>
 
           <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/20 pt-5 text-xs font-semibold text-slate-300">
@@ -145,84 +279,77 @@ export default function HomePage() {
             <div className="hidden text-right text-sm font-semibold text-slate-400 lg:block">Learn by doing. Grow with direction.</div>
           </div>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
-            <article className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-blue-200 hover:shadow-[0_22px_45px_rgba(37,99,235,0.13)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-primary transition group-hover:bg-primary group-hover:text-white">
-                <svg aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3" /><path d="M5 20a7 7 0 0 1 14 0M17 4.5a3 3 0 0 1 0 5.1M19 13a5 5 0 0 1 2 4" /></svg>
-              </div>
-              <h3 className="mt-6 text-xl font-bold text-navy">Career Guidance</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">Discover your strengths and find a clear direction for the road ahead.</p>
-              <a href="#career-guidance" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary transition group-hover:gap-3">Learn More <span aria-hidden="true">→</span></a>
-            </article>
-
-            <article className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-cyan-200 hover:shadow-[0_22px_45px_rgba(6,182,212,0.13)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-600 transition group-hover:bg-cyan-500 group-hover:text-white">
-                <svg aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14" /></svg>
-              </div>
-              <h3 className="mt-6 text-xl font-bold text-navy">Coding &amp; Programming</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">Learn to think like a builder and create with the language of technology.</p>
-              <a href="#coding" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-cyan-600 transition group-hover:gap-3">Learn More <span aria-hidden="true">→</span></a>
-            </article>
-
-            <article className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-violet-200 hover:shadow-[0_22px_45px_rgba(124,58,237,0.13)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-600 transition group-hover:bg-violet-600 group-hover:text-white">
-                <svg aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" /><circle cx="12" cy="12" r="4" /><path d="M14.5 9.5 17 7" /></svg>
-              </div>
-              <h3 className="mt-6 text-xl font-bold text-navy">AI &amp; Emerging Technology</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">Explore the ideas and tools shaping how we learn, work, and innovate.</p>
-              <a href="#ai-technology" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-violet-600 transition group-hover:gap-3">Learn More <span aria-hidden="true">→</span></a>
-            </article>
-
-            <article className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-amber-200 hover:shadow-[0_22px_45px_rgba(245,158,11,0.13)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 transition group-hover:bg-amber-500 group-hover:text-white">
-                <svg aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V5a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 5.5v14Z" /><path d="M8 7h7M8 11h7" /></svg>
-              </div>
-              <h3 className="mt-6 text-xl font-bold text-navy">College Readiness</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">Prepare for college life with stronger habits, choices, and confidence.</p>
-              <a href="#college-readiness" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-amber-600 transition group-hover:gap-3">Learn More <span aria-hidden="true">→</span></a>
-            </article>
-
-            <article className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-emerald-200 hover:shadow-[0_22px_45px_rgba(16,185,129,0.13)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 transition group-hover:bg-emerald-500 group-hover:text-white">
-                <svg aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M12 3 4 7l8 4 8-4-8-4Z" /><path d="m4 12 8 4 8-4M4 17l8 4 8-4" /></svg>
-              </div>
-              <h3 className="mt-6 text-xl font-bold text-navy">Future-Ready Skills</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">Grow the communication, problem-solving, and digital skills tomorrow demands.</p>
-              <a href="#future-skills" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-emerald-600 transition group-hover:gap-3">Learn More <span aria-hidden="true">→</span></a>
-            </article>
-
-            <article className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-rose-200 hover:shadow-[0_22px_45px_rgba(244,63,94,0.13)]">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 transition group-hover:bg-rose-500 group-hover:text-white">
-                <svg aria-hidden="true" className="h-6 w-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24"><rect height="14" rx="2" width="18" x="3" y="5" /><path d="m10 9 5 3-5 3V9ZM7 19v2M17 19v2" /></svg>
-              </div>
-              <h3 className="mt-6 text-xl font-bold text-navy">Webinars &amp; Workshops</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">Learn from mentors and industry voices through practical, live experiences.</p>
-              <a href="#events" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-rose-600 transition group-hover:gap-3">Learn More <span aria-hidden="true">→</span></a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="events" className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
-        <div className="absolute -right-24 top-12 h-72 w-72 rounded-full bg-blue-50 blur-3xl" />
-        <style>{`
-          @keyframes events-coming-soon-bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-          }
-          @media (prefers-reduced-motion: reduce) {
-            .events-coming-soon { animation: none !important; }
-          }
-        `}</style>
-        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="events-coming-soon mx-auto max-w-3xl text-center" style={{ animation: 'events-coming-soon-bounce 1.8s ease-in-out infinite' }}>
-            <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">
-              <span className="h-px w-8 bg-cyan" />
-              Stay Tuned
-              <span className="h-px w-8 bg-cyan" />
+          <style>{`
+            .programs-carousel {
+              overflow-x: auto;
+              overflow-y: hidden;
+              overscroll-behavior-x: contain;
+              scrollbar-color: #cbd5e1 transparent;
+              scrollbar-width: thin;
+              -webkit-overflow-scrolling: touch;
+              touch-action: pan-x pan-y;
+            }
+            .programs-carousel:focus-visible {
+              outline: 3px solid rgba(37, 99, 235, .35);
+              outline-offset: 4px;
+            }
+            .programs-carousel__track,
+            .programs-carousel__group {
+              display: flex;
+              width: max-content;
+              gap: 16px;
+            }
+            .programs-carousel__group {
+              flex: 0 0 auto;
+            }
+            .programs-carousel__card {
+              display: flex;
+              width: clamp(260px, 28vw, 300px);
+              min-height: 270px;
+              flex: 0 0 clamp(260px, 28vw, 300px);
+              flex-direction: column;
+            }
+            .programs-carousel__card a:focus-visible {
+              border-radius: 4px;
+              outline: 3px solid rgba(37, 99, 235, .35);
+              outline-offset: 4px;
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .programs-carousel__card {
+                transition: none;
+              }
+            }
+          `}</style>
+          <div
+            aria-label="Explore programs"
+            className="programs-carousel mt-12 rounded-3xl lg:mt-16"
+            onKeyDown={(event) => {
+              if (event.target !== event.currentTarget) return
+              if (event.key === 'ArrowRight') {
+                event.preventDefault()
+                event.currentTarget.scrollLeft += 316
+              } else if (event.key === 'ArrowLeft') {
+                event.preventDefault()
+                event.currentTarget.scrollLeft -= 316
+              }
+            }}
+            onPointerCancel={(event) => {
+              if (event.pointerType === 'touch') isInteractingRef.current = false
+            }}
+            onPointerDown={(event) => {
+              if (event.pointerType === 'touch') isInteractingRef.current = true
+            }}
+            onPointerUp={(event) => {
+              if (event.pointerType === 'touch') isInteractingRef.current = false
+            }}
+            ref={carouselRef}
+            role="region"
+            tabIndex={0}
+          >
+            <div className="programs-carousel__track">
+              <div className="programs-carousel__group">{renderCategoryCards()}</div>
+              <div aria-hidden="true" className="programs-carousel__group">{renderCategoryCards(true)}</div>
             </div>
-            <h2 className="text-3xl font-black tracking-tight text-navy sm:text-4xl lg:text-5xl">Webinars and Hackathons Coming Soon</h2>
-            <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">Stay tuned for updates!</p>
           </div>
         </div>
       </section>
