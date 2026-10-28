@@ -3,7 +3,7 @@ import excelBrochure from '../assets/excel-data-analysis-webinar-brochure.png'
 import portfolioBrochure from '../assets/portfolio-website-webinar-brochure.png'
 
 const registrationUrl = 'https://unstop.com/p/webinar-on-power-bi-for-beginners-skill2career-1773070'
-const excelRegistrationUrl = 'https://unstop.com/o/xAJREW7?lb=usepFZPJ&utm_medium=Share&utm_source=workshops&utm_campaign=Skillaca68127'
+const excelRegistrationUrl = 'https://unstop.com/workshops-webinars/data-analysis-with-excel-workshop-skill2career-1773093'
 const portfolioRegistrationUrl = 'https://unstop.com/o/aq6T21l?lb=usepFZPJ&utm_medium=Share&utm_source=workshops&utm_campaign=Skillaca68127'
 
 export default function ProgramsPage() {
