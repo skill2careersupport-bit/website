@@ -1,10 +1,10 @@
 const pastWebinars = [
-  { title: 'SQL Webinar', description: 'An introductory session focused on SQL concepts and practical database learning.', topic: 'SQL', tone: 'cyan' },
-  { title: 'Python Webinar', description: 'A practical introduction to Python programming and its applications.', topic: 'Python', tone: 'blue' },
-  { title: 'HTML & CSS Webinar', description: 'A beginner-friendly session covering the fundamentals of building and styling websites.', topic: 'Web development', tone: 'purple' },
-  { title: 'AI Webinar', description: 'An introductory session exploring artificial intelligence and its real-world applications.', topic: 'Artificial intelligence', tone: 'cyan' },
-  { title: 'Git & GitHub Webinar', description: 'A practical session introducing version control and collaboration using Git and GitHub.', topic: 'Version control', tone: 'blue' },
-  { title: 'No-Code Website Webinar', description: 'A practical session showing how websites can be created using no-code tools.', topic: 'No-code development', tone: 'purple' },
+  { title: 'SQL Webinar', description: 'Explore core SQL concepts and practise how databases help organize and retrieve information.', topic: 'SQL', tone: 'cyan' },
+  { title: 'Python Webinar', description: 'Get an approachable introduction to Python and see how programming can solve practical problems.', topic: 'Python', tone: 'blue' },
+  { title: 'HTML & CSS Webinar', description: 'Learn the building blocks of the web and how HTML and CSS bring a page to life.', topic: 'Web development', tone: 'purple' },
+  { title: 'AI Webinar', description: 'Discover the fundamentals of artificial intelligence and examples of how it is used in the real world.', topic: 'Artificial intelligence', tone: 'cyan' },
+  { title: 'Git & GitHub Webinar', description: 'Understand version control and how developers use Git and GitHub to collaborate on projects.', topic: 'Version control', tone: 'blue' },
+  { title: 'No-Code Website Webinar', description: 'See how no-code tools can help turn an idea into a simple website without traditional coding.', topic: 'No-code development', tone: 'purple' },
 ]
 
 const feedback = [
@@ -60,9 +60,9 @@ export default function WebinarsPage() {
       <section className="webinars-hero">
         <div className="webinars-stars absolute inset-0" aria-hidden="true" />
         <div className="webinars-grid absolute inset-0 opacity-50" aria-hidden="true" />
-        <div className="webinars-container"><div className="webinars-hero__content"><div className="webinars-label"><span />Skill2Career Sessions<span /></div><h1 className="webinars-title">Webinars &amp; Workshops</h1><p className="webinars-lede">Learn from practical sessions designed to give students knowledge beyond the classroom.</p></div></div>
+        <div className="webinars-container"><div className="webinars-hero__content"><div className="webinars-label"><span />Skill2Career Sessions<span /></div><h1 className="webinars-title">Webinars &amp; Workshops</h1><p className="webinars-lede">Learn by doing, ask questions, and explore ideas that connect classroom knowledge with practical skills.</p></div></div>
       </section>
-      <section className="webinars-section webinars-section--deep"><div className="webinars-container"><div className="webinars-label"><span />Past Sessions<span /></div><h2 className="webinars-heading">Past Webinars</h2><p className="webinars-copy">Explore the sessions Skill2Career has conducted to help students learn practical and future-ready skills.</p><div className="webinars-cards">{pastWebinars.map((webinar, index) => <article className={`webinars-card webinars-card--${webinar.tone}`} key={webinar.title}><div className="webinars-card__icon">0{index + 1}</div><h2>{webinar.title}</h2><p>{webinar.description}</p><p className="webinars-card__topic">{webinar.topic}</p><div className="webinars-card__status">Past Webinar</div></article>)}</div></div></section>
+      <section className="webinars-section webinars-section--deep"><div className="webinars-container"><div className="webinars-label"><span />Past Sessions<span /></div><h2 className="webinars-heading">Past Webinars</h2><p className="webinars-copy">Revisit hands-on sessions that introduced students to useful tools, new ideas, and skills they can continue practising.</p><div className="webinars-cards">{pastWebinars.map((webinar, index) => <article className={`webinars-card webinars-card--${webinar.tone}`} key={webinar.title}><div className="webinars-card__icon">0{index + 1}</div><h2>{webinar.title}</h2><p>{webinar.description}</p><p className="webinars-card__topic">{webinar.topic}</p><div className="webinars-card__status">Past Webinar</div></article>)}</div></div></section>
 
       <section className="webinars-section"><div className="webinars-container"><div className="webinars-label"><span />Student Feedback<span /></div><h2 className="webinars-heading">What Students Say</h2><p className="webinars-copy">Feedback from students who attended our webinars and learning sessions.</p><div className="webinars-feedback-grid">{feedback.map((entry) => <article className={`webinars-card webinars-card--${entry.tone} webinars-feedback-card`} key={entry.name}><div className="webinars-card__icon">“</div><p className="webinars-quote">{entry.quote}</p><h2>{entry.name}</h2><p>{entry.session}</p></article>)}</div></div></section>
     </div>

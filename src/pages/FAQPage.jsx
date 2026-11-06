@@ -1,35 +1,35 @@
 const questions = [
   {
     question: 'What skills can I learn through Skill2Career?',
-    answer: 'Skill2Career offers opportunities to explore technical and non-technical skills through courses and learning resources, helping learners develop their knowledge and career-related skills.',
+    answer: 'Explore technical and non-technical learning opportunities designed to build practical skills, broaden your perspective, and help you take a confident next step.',
   },
   {
     question: 'Do I need prior knowledge to enroll in a course?',
-    answer: 'Anyone interested in learning can explore courses on Skill2Career. However, some courses may have specific prerequisites. Please check the individual course description before enrolling.',
+    answer: 'Many sessions welcome beginners, while some courses may have specific prerequisites. Check each course description to find the right place to begin.',
   },
   {
     question: 'Are the courses free or paid?',
-    answer: 'Skill2Career offers both free and paid courses. Please check the details of each course to find out whether any fees apply.',
+    answer: 'Both free and paid courses may be available. Review the individual course details for current pricing before enrolling.',
   },
   {
     question: 'Can I learn at my own pace?',
-    answer: 'Learning flexibility depends on the course. Some courses allow self-paced learning, while others follow a fixed schedule. Please check the course details for more information.',
+    answer: 'Learning format depends on the course. Some offerings are self-paced; live sessions and workshops follow a set schedule. Check the course details before you join.',
   },
   {
     question: 'Will I receive a certificate after completing a course?',
-    answer: 'Yes, a certificate is available for every course. Please refer to the individual course details for the applicable completion requirements.',
+    answer: 'Certificate availability and eligibility can vary by course or session. Refer to its details for the applicable participation or completion requirements.',
   },
 ]
 
 export default function FAQPage() {
   return (
-    <main className="min-h-[70vh] bg-[#030712] px-5 py-20 text-[#e5eefb] sm:px-8 sm:py-24">
+    <main className="faq-page min-h-[70vh] bg-[#f2f8f6] px-5 py-20 text-[#123541] sm:px-8 sm:py-24">
       <section className="mx-auto max-w-4xl">
         <div className="text-center">
-          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-300">Support</p>
-          <h1 className="mt-4 text-4xl font-black tracking-tight text-white sm:text-5xl">Frequently Asked Questions</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-300">
-            Find answers to common questions about learning with Skill2Career.
+          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-primary">A clear place to start</p>
+          <h1 className="mt-4 text-4xl font-black tracking-tight text-navy sm:text-5xl">Frequently Asked Questions</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600">
+            Get the details you need to choose a learning path and take your next step with confidence.
           </p>
         </div>
 
@@ -37,13 +37,13 @@ export default function FAQPage() {
           {questions.map(({ question, answer }) => (
             <details
               key={question}
-              className="group rounded-2xl border border-sky-200/20 bg-gradient-to-br from-[#0f1f3a]/80 to-[#070e1f]/80 p-5 shadow-[inset_0_1px_rgba(255,255,255,0.04)] transition-colors open:border-cyan-300/50 sm:p-6"
+              className="group rounded-2xl border border-teal-900/10 bg-white p-5 shadow-[0_12px_35px_rgba(18,53,65,0.07)] transition-colors open:border-primary/50 sm:p-6"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-left text-lg font-bold text-white marker:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-left text-lg font-bold text-navy marker:hidden">
                 {question}
-                <span aria-hidden="true" className="shrink-0 text-2xl font-normal text-cyan-300 transition-transform group-open:rotate-45">+</span>
+                <span aria-hidden="true" className="shrink-0 text-2xl font-normal text-amber-600 transition-transform group-open:rotate-45">+</span>
               </summary>
-              <p className="mt-4 max-w-3xl border-t border-white/10 pt-4 leading-7 text-slate-300">{answer}</p>
+              <p className="mt-4 max-w-3xl border-t border-teal-900/10 pt-4 leading-7 text-slate-600">{answer}</p>
             </details>
           ))}
         </div>

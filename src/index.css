@@ -8,8 +8,8 @@
   font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #0f172a;
-  background: #f8fafc;
+  color: #123541;
+  background: #f2f8f6;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,7 +23,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: #f8fafc;
+  background: #f2f8f6;
 }
 
 * {
@@ -47,37 +47,360 @@ img {
   display: block;
 }
 
-.hero-network__lines {
-  opacity: 0.28;
-}
-
-.hero-network__nodes {
-  animation: hero-network-pulse 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 7px rgba(34, 211, 238, 0.8));
-}
-
-.hero-network__particles {
-  filter: drop-shadow(0 0 5px rgba(165, 243, 252, 0.95));
-}
-
-@keyframes hero-network-pulse {
-  0%,
-  100% {
-    opacity: 0.62;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+}
 
-  .hero-network__nodes,
-  .hero-network__particles {
-    animation: none;
-    display: none;
+/* Shared light, teal, and gold palette inspired by the Skill2Career hero artwork. */
+.about-page,
+.programs-page,
+.webinars-page,
+.contact-page {
+  background: #f2f8f6 !important;
+  color: #123541 !important;
+}
+
+.about-page .about-stars,
+.about-page .about-grid,
+.programs-page .programs-stars,
+.programs-page .programs-grid,
+.webinars-page .webinars-stars,
+.webinars-page .webinars-grid,
+.contact-page .contact-stars,
+.contact-page .contact-grid {
+  display: none !important;
+}
+
+.about-page .about-hero,
+.programs-page .programs-hero,
+.webinars-page .webinars-hero,
+.contact-page .contact-hero {
+  background: linear-gradient(135deg, #e1f0ed 0%, #f5faf8 72%) !important;
+}
+
+.about-page .about-hero__earth,
+.about-page .about-cta__earth {
+  opacity: 0.08 !important;
+}
+
+.about-page .about-hero__shade,
+.about-page .about-cta__shade {
+  background: linear-gradient(110deg, rgba(241, 249, 246, 0.96), rgba(241, 249, 246, 0.76)) !important;
+}
+
+.about-page .about-cta {
+  background: #e4f1ed !important;
+}
+
+.about-page .about-section,
+.programs-page .programs-section,
+.webinars-page .webinars-section,
+.contact-page .contact-layout {
+  background: #f7fbf9 !important;
+}
+
+.about-page .about-section--deep,
+.programs-page .programs-webinars-section,
+.webinars-page .webinars-section--deep {
+  background: #eaf4f1 !important;
+}
+
+.about-page .about-label,
+.programs-page .programs-label,
+.webinars-page .webinars-label,
+.contact-page .contact-label {
+  color: #0f7774 !important;
+}
+
+.about-page .about-title,
+.about-page .about-heading,
+.about-page .about-card h3,
+.about-page .about-profile h3,
+.programs-page .programs-title,
+.programs-page .programs-heading,
+.programs-page .programs-section-heading,
+.programs-page .programs-card h3,
+.programs-page .programs-detail-heading,
+.webinars-page .webinars-title,
+.webinars-page .webinars-heading,
+.webinars-page .webinars-card h2,
+.contact-page .contact-title,
+.contact-page .contact-form h2,
+.contact-page .contact-connect h2 {
+  color: #123541 !important;
+}
+
+.about-page .about-lede,
+.about-page .about-copy,
+.about-page .about-card p,
+.programs-page .programs-lede,
+.programs-page .programs-section-lede,
+.programs-page .programs-card p,
+.programs-page .programs-card-description,
+.programs-page .programs-why,
+.programs-page .programs-attendees,
+.webinars-page .webinars-lede,
+.webinars-page .webinars-copy,
+.webinars-page .webinars-card p,
+.contact-page .contact-lede,
+.contact-page .contact-connect p {
+  color: #506971 !important;
+}
+
+.about-page .about-glass,
+.programs-page .programs-glass,
+.programs-page .programs-featured-card,
+.webinars-page .webinars-card,
+.contact-page .contact-card {
+  border-color: rgba(15, 119, 116, 0.16) !important;
+  background: #fff !important;
+  box-shadow: 0 16px 42px rgba(18, 53, 65, 0.08) !important;
+  color: #123541 !important;
+  backdrop-filter: none !important;
+}
+
+.about-page .about-glass::after,
+.programs-page .programs-glass::after,
+.webinars-page .webinars-card::after {
+  background: rgba(209, 154, 27, 0.12) !important;
+}
+
+.about-page .about-glass:hover,
+.programs-page .programs-card:hover,
+.programs-page .programs-featured-card:hover,
+.webinars-page .webinars-card:hover {
+  border-color: rgba(15, 119, 116, 0.42) !important;
+  box-shadow: 0 20px 46px rgba(18, 53, 65, 0.12) !important;
+}
+
+.about-page .about-card__icon,
+.programs-page .programs-card__icon,
+.webinars-page .webinars-card__icon {
+  border-color: rgba(15, 119, 116, 0.25) !important;
+  background: #edf6f3 !important;
+  color: #0f7774 !important;
+  box-shadow: none !important;
+}
+
+.about-page .about-profile p,
+.programs-page .programs-button,
+.programs-page .programs-card-kicker,
+.programs-page .programs-meta,
+.programs-page .programs-card-footer,
+.webinars-page .webinars-card__topic,
+.webinars-page .webinars-feedback-card h2 + p {
+  color: #0f7774 !important;
+}
+
+.about-page .about-button {
+  border-color: #0f7774 !important;
+  color: #fff !important;
+  background: #0f7774 !important;
+  box-shadow: 0 8px 20px rgba(15, 119, 116, 0.16) !important;
+}
+
+.about-page .about-button--ghost {
+  color: #123541 !important;
+  background: #fff !important;
+}
+
+.programs-page .programs-card__icon--blue,
+.programs-page .programs-card__icon--purple,
+.webinars-page .webinars-card--blue .webinars-card__icon,
+.webinars-page .webinars-card--purple .webinars-card__icon {
+  border-color: rgba(209, 154, 27, 0.32) !important;
+  background: #fbf5e8 !important;
+  color: #98680a !important;
+}
+
+.programs-page .programs-button:hover {
+  color: #98680a !important;
+}
+
+.programs-page .programs-featured-card::before {
+  background: linear-gradient(135deg, rgba(15, 119, 116, 0.05), rgba(209, 154, 27, 0.06)) !important;
+}
+
+.programs-page .programs-brochure {
+  background: #edf6f3 !important;
+}
+
+.programs-page .programs-brochure::after {
+  background: linear-gradient(135deg, rgba(15, 119, 116, 0.06), transparent 55%, rgba(209, 154, 27, 0.08)) !important;
+}
+
+.programs-page .programs-brochure img {
+  box-shadow: 0 16px 42px rgba(18, 53, 65, 0.14) !important;
+}
+
+.programs-page .programs-live-badge,
+.webinars-page .webinars-card__status {
+  border-color: rgba(15, 119, 116, 0.22) !important;
+  background: #edf6f3 !important;
+  color: #0f7774 !important;
+}
+
+.programs-page .programs-card-date {
+  color: #506971 !important;
+}
+
+.programs-page .programs-card-title {
+  color: #123541 !important;
+}
+
+.programs-page .programs-meta span,
+.programs-page .programs-attendees li {
+  border-color: rgba(15, 119, 116, 0.14) !important;
+  background: #f2f8f6 !important;
+  color: #35545d !important;
+}
+
+.programs-page .programs-card-footer {
+  border-color: rgba(15, 119, 116, 0.14) !important;
+}
+
+.programs-page .programs-motto {
+  color: #506971 !important;
+}
+
+.programs-page .programs-register {
+  border-color: #0f7774 !important;
+  background: #0f7774 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.programs-page .programs-register span {
+  color: #f3cb66 !important;
+}
+
+.about-page .about-team-photo {
+  border-color: rgba(15, 119, 116, 0.2) !important;
+  box-shadow: 0 18px 48px rgba(18, 53, 65, 0.12) !important;
+}
+
+.contact-page .contact-field label {
+  color: #35545d !important;
+}
+
+.contact-page .contact-field input,
+.contact-page .contact-field textarea {
+  border-color: rgba(15, 119, 116, 0.22) !important;
+  background: #fff !important;
+  color: #123541 !important;
+}
+
+.contact-page .contact-button {
+  border-color: #0f7774 !important;
+  background: #0f7774 !important;
+  color: #fff !important;
+}
+
+.contact-page .contact-status--success {
+  color: #16734a !important;
+}
+
+.contact-page .contact-status--error {
+  color: #b42318 !important;
+}
+
+.faq-page {
+  background: #f2f8f6 !important;
+}
+
+.faq-page details {
+  border-color: rgba(15, 119, 116, 0.14);
+  box-shadow: 0 12px 35px rgba(18, 53, 65, 0.07);
+}
+
+#home {
+  background: #123541 !important;
+}
+
+.trust-section {
+  background: #eaf4f1 !important;
+  color: #123541 !important;
+}
+
+.trust-section::before,
+.trust-section::after {
+  display: none !important;
+}
+
+.trust-section h2,
+.trust-section .testimonial-heading,
+.trust-section .trust-card h3 {
+  color: #123541 !important;
+}
+
+.trust-section > div > div > p,
+.trust-section .trust-card p,
+.trust-section .testimonial-intro {
+  color: #506971 !important;
+}
+
+.trust-section .trust-card {
+  border-color: rgba(15, 119, 116, 0.14) !important;
+  background: #fff !important;
+  box-shadow: 0 14px 36px rgba(18, 53, 65, 0.08) !important;
+  backdrop-filter: none !important;
+}
+
+.trust-section .trust-card > div:first-child {
+  border-color: rgba(15, 119, 116, 0.2) !important;
+  background: #edf6f3 !important;
+  color: #0f7774 !important;
+  box-shadow: none !important;
+}
+
+.trust-section .testimonial-eyebrow {
+  color: #0f7774 !important;
+}
+
+.trust-section .testimonial-quote,
+.trust-section .testimonial-name {
+  color: #123541 !important;
+}
+
+.trust-section .testimonial-card--cyan .testimonial-quote-mark,
+.trust-section .testimonial-card--cyan .testimonial-session,
+.trust-section .testimonial-card--blue .testimonial-quote-mark,
+.trust-section .testimonial-card--blue .testimonial-session {
+  color: #0f7774 !important;
+}
+
+.trust-section .testimonial-sticky::before {
+  background: radial-gradient(ellipse at 18% 55%, rgba(15, 119, 116, 0.08), transparent 42%), radial-gradient(ellipse at 82% 40%, rgba(209, 154, 27, 0.07), transparent 38%) !important;
+}
+
+.trust-section .testimonial-card--violet .testimonial-quote-mark,
+.trust-section .testimonial-card--violet .testimonial-session {
+  color: #98680a !important;
+}
+
+footer.bg-navy {
+  background-color: #123541 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page *,
+  .programs-page *,
+  .webinars-page *,
+  .contact-page *,
+  .trust-section *,
+  .about-page *::before,
+  .programs-page *::before,
+  .webinars-page *::before,
+  .contact-page *::before,
+  .trust-section *::before,
+  .about-page *::after,
+  .programs-page *::after,
+  .webinars-page *::after,
+  .contact-page *::after,
+  .trust-section *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -105,9 +105,9 @@ export default function Layout({ children }) {
               <Link to="/" className="inline-flex items-center gap-3" onClick={() => setMenuOpen(false)}>
                 <img src={skill2careerLogo} alt="Skill2Career" className="h-32 w-32 shrink-0 object-contain" />
               </Link>
-              <p className="mt-4 text-sm font-semibold text-cyan-200">Bridging School to Career.</p>
+              <p className="mt-4 text-sm font-semibold text-cyan-200">Bridging learning to opportunity.</p>
               <p className="mt-4 text-sm leading-7 text-slate-300">
-                Helping students build clarity, practical skills, and confidence for the opportunities ahead.
+                Practical skills, clearer choices, and a confident first step toward what comes next.
               </p>
               <div className="mt-6 flex items-center gap-3" aria-label="Social media links">
                 <a href="https://www.linkedin.com/in/skill2career/" target="_blank" rel="noopener noreferrer" aria-label="Skill2Career on LinkedIn" className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-600 text-xs font-black text-slate-200 transition hover:border-cyan-300 hover:bg-cyan-300 hover:text-navy">in</a>
@@ -137,7 +137,7 @@ export default function Layout({ children }) {
 
             <div>
               <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-white">Stay in the loop</h2>
-              <p className="mt-5 text-sm leading-7 text-slate-300">Get updates, upcoming events, and fresh opportunities in your inbox.</p>
+              <p className="mt-5 text-sm leading-7 text-slate-300">Get useful learning ideas, upcoming sessions, and opportunities worth exploring.</p>
               <form className="mt-5 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" onSubmit={(event) => event.preventDefault()}>
                 <label htmlFor="newsletter-email" className="sr-only">Email address</label>
                 <input id="newsletter-email" type="email" placeholder="Your email address" className="min-w-0 flex-1 rounded-full border border-slate-600 bg-slate-800 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-400 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />

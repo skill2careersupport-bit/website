@@ -85,7 +85,7 @@ export default function ProgramsPage() {
           <div className="programs-hero__content">
             <div className="programs-label"><span />Skill2Career Programs<span /></div>
             <h1 className="programs-title">Programs</h1>
-            <p className="programs-lede">Explore practical learning experiences designed to help students build skills, discover opportunities, and prepare for the future.</p>
+            <p className="programs-lede">Choose a practical place to begin: build useful skills, explore new interests, and connect your learning with future possibilities.</p>
           </div>
         </div>
       </section>
@@ -96,7 +96,7 @@ export default function ProgramsPage() {
         <div className="programs-container">
           <div className="programs-label"><span />Featured Program<span /></div>
           <h2 className="programs-section-heading">Turn raw data into real insights.</h2>
-          <p className="programs-section-lede">Join us for a beginner-friendly live webinar to explore Microsoft Power BI, create interactive dashboards, and discover how businesses turn data into useful insights.</p>
+          <p className="programs-section-lede">Start with the essentials, practise with real examples, and see how clear data stories can support better decisions.</p>
 
           <a
             className="programs-featured-card"
@@ -114,7 +114,7 @@ export default function ProgramsPage() {
                 <span className="programs-card-date">1st November 2026</span>
               </div>
               <h3 className="programs-card-title">Webinar on POWER BI FOR BEGINNERS</h3>
-              <p className="programs-card-description">Join Skill2Career for a beginner-friendly live webinar to explore Microsoft Power BI, visualize data, create interactive dashboards, and discover how businesses turn raw data into meaningful insights.</p>
+              <p className="programs-card-description">Explore Microsoft Power BI, practise visualizing data and building interactive dashboards, and see how organizations turn raw data into useful insights.</p>
 
               <div className="programs-meta" aria-label="Webinar details">
                 <span>1 hour</span>
@@ -130,7 +130,7 @@ export default function ProgramsPage() {
               </ul>
 
               <h4 className="programs-detail-heading">Why join?</h4>
-              <p className="programs-why">Learn how to transform raw data into meaningful insights through a live Power BI demonstration. Explore charts, interactive dashboards, filters, and business metrics while discovering how data visualization supports smarter decisions. Get introduced to practical Power BI concepts and take your first step toward a career in Data Analytics or Business Intelligence.</p>
+              <p className="programs-why">Follow a live Power BI demonstration to explore charts, dashboards, filters, and business metrics. See how data visualization can support informed decisions and get an introduction to concepts used in Data Analytics and Business Intelligence.</p>
 
               <div className="programs-card-footer">
                 <span className="programs-motto">Skill2Career — ACQUIRE SKILLS. BUILD CAREERS.</span>
@@ -141,7 +141,7 @@ export default function ProgramsPage() {
 
           <div className="programs-label" style={{ marginTop: 64 }}><span />Next Program<span /></div>
           <h2 className="programs-section-heading">From Raw Data to Real Insights</h2>
-          <p className="programs-section-lede">Learn data analysis with Excel in a beginner-friendly live webinar. Organize datasets, create charts, and uncover meaningful insights.</p>
+          <p className="programs-section-lede">Build confidence with Excel by organizing data, creating clear charts, and finding useful patterns in a dataset.</p>
 
           <a
             className="programs-featured-card"
@@ -159,7 +159,7 @@ export default function ProgramsPage() {
                 <span className="programs-card-date">3 November 2026</span>
               </div>
               <h3 className="programs-card-title">From Raw Data to Real Insights — Learn Data Analysis with Excel!</h3>
-              <p className="programs-card-description">Join Skill2Career for a beginner-friendly live webinar to learn Microsoft Excel, explore basic data analysis techniques, organize and analyze datasets, visualize data using charts, and discover meaningful insights from raw data.</p>
+              <p className="programs-card-description">Learn foundational Microsoft Excel techniques, organize and analyze datasets, visualize results with charts, and discover useful insights from raw data.</p>
 
               <div className="programs-meta" aria-label="Webinar details">
                 <span>1 hour</span>

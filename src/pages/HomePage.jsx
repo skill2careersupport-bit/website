@@ -1,4 +1,4 @@
-import earthImage from '../assets/earth-space.jpg'
+import bridgeImage from '../assets/we-bridge-the-gap.jpg'
 import { Link } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 
@@ -32,16 +32,16 @@ export default function HomePage() {
       title: 'Coding & Programming',
       description: 'Learn to think like a builder and create with the language of technology.',
       href: '#coding',
-      iconTone: 'bg-cyan-50 text-cyan-600 group-hover:bg-cyan-500',
-      linkTone: 'text-cyan-600',
+      iconTone: 'bg-teal-50 text-teal-700 group-hover:bg-primary',
+      linkTone: 'text-primary',
       icon: <path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14" />,
     },
     {
       title: 'AI & Emerging Technology',
       description: 'Explore the ideas and tools shaping how we learn, work, and innovate.',
       href: '#ai-technology',
-      iconTone: 'bg-violet-50 text-violet-600 group-hover:bg-violet-600',
-      linkTone: 'text-violet-600',
+      iconTone: 'bg-amber-50 text-amber-700 group-hover:bg-amber-500',
+      linkTone: 'text-amber-700',
       icon: <><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" /><circle cx="12" cy="12" r="4" /><path d="M14.5 9.5 17 7" /></>,
     },
     {
@@ -56,23 +56,23 @@ export default function HomePage() {
       title: 'Future-Ready Skills',
       description: 'Grow the communication, problem-solving, and digital skills tomorrow demands.',
       href: '#future-skills',
-      iconTone: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-500',
-      linkTone: 'text-emerald-600',
+      iconTone: 'bg-teal-50 text-teal-700 group-hover:bg-primary',
+      linkTone: 'text-primary',
       icon: <><path d="M12 3 4 7l8 4 8-4-8-4Z" /><path d="m4 12 8 4 8-4M4 17l8 4 8-4" /></>,
     },
     {
       title: 'Webinars & Workshops',
       description: 'Learn from mentors and industry voices through practical, live experiences.',
       href: '#events',
-      iconTone: 'bg-rose-50 text-rose-600 group-hover:bg-rose-500',
-      linkTone: 'text-rose-600',
+      iconTone: 'bg-amber-50 text-amber-700 group-hover:bg-amber-500',
+      linkTone: 'text-amber-700',
       icon: <><rect height="14" rx="2" width="18" x="3" y="5" /><path d="m10 9 5 3-5 3V9ZM7 19v2M17 19v2" /></>,
     },
   ]
 
   const renderCategoryCards = (isDuplicate = false) => categories.map((category) => (
     <article
-      className="programs-carousel__card group rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_12px_35px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-blue-200 hover:shadow-[0_22px_45px_rgba(37,99,235,0.13)]"
+      className="programs-carousel__card group rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_12px_35px_rgba(18,53,65,0.06)] transition duration-300 hover:-translate-y-1.5 hover:border-teal-200 hover:shadow-[0_22px_45px_rgba(15,119,116,0.12)]"
       key={`${isDuplicate ? 'duplicate-' : ''}${category.title}`}
     >
       <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${category.iconTone} transition group-hover:text-white`}>
@@ -234,58 +234,21 @@ export default function HomePage() {
     <>
       <section
         id="home"
-        className="relative isolate min-h-[calc(100vh-76px)] overflow-hidden bg-slate-950"
+        className="relative isolate overflow-hidden bg-slate-950"
       >
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${earthImage})`, backgroundPosition: 'center right' }}
-      />
-      <div aria-hidden="true" className="absolute inset-0 z-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/20" />
-      <div aria-hidden="true" className="hero-network pointer-events-none absolute inset-0 z-[1] overflow-hidden">
-        <svg className="h-full w-full" viewBox="0 0 1000 700" preserveAspectRatio="none" fill="none">
-          <g className="hero-network__lines" stroke="#67e8f9" strokeWidth="1.2">
-            <path d="M560 155 C675 110 745 168 835 120" />
-            <path d="M560 155 C610 245 690 270 760 235" />
-            <path d="M760 235 C820 190 865 220 930 185" />
-            <path d="M760 235 C740 335 805 390 900 365" />
-            <path d="M560 155 C520 255 580 360 650 420" />
-            <path d="M650 420 C735 455 820 435 900 365" />
-            <path d="M650 420 C610 500 690 570 785 545" />
-          </g>
-          <g className="hero-network__nodes" fill="#a5f3fc" stroke="#22d3ee" strokeWidth="2">
-            <circle cx="560" cy="155" r="4" />
-            <circle cx="835" cy="120" r="3" />
-            <circle cx="760" cy="235" r="5" />
-            <circle cx="930" cy="185" r="3" />
-            <circle cx="900" cy="365" r="4" />
-            <circle cx="650" cy="420" r="5" />
-            <circle cx="785" cy="545" r="3" />
-          </g>
-          <g className="hero-network__particles" fill="#fff">
-            <circle r="2"><animateMotion dur="8s" repeatCount="indefinite" path="M560 155 C610 245 690 270 760 235" /></circle>
-            <circle r="1.5"><animateMotion dur="11s" repeatCount="indefinite" path="M650 420 C735 455 820 435 900 365" /></circle>
-            <circle r="1.5"><animateMotion dur="9s" repeatCount="indefinite" path="M560 155 C675 110 745 168 835 120" /></circle>
-          </g>
-        </svg>
-      </div>
+        <img
+          src={bridgeImage}
+          alt=""
+          aria-hidden="true"
+          className="block h-auto w-full"
+          width="1364"
+          height="768"
+          fetchPriority="high"
+          decoding="async"
+        />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-20 lg:px-10 lg:pb-24 lg:pt-24">
-        <div className="relative z-10 max-w-2xl">
-          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-cyan-100/80 bg-slate-950/75 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_0_18px_rgba(6,182,212,0.16)]">
-            <span className="h-2 w-2 rounded-full bg-cyan shadow-[0_0_0_4px_rgba(6,182,212,0.15)]" />
-            Your future starts here
-          </div>
-
-          <h1 className="max-w-3xl text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[4.4rem]">
-            Build Skills. <span className="text-white">Discover Careers.</span> Be Ready for College.
-          </h1>
-
-          <p className="mt-7 max-w-xl text-base leading-8 text-white/90 sm:text-lg">
-            Skill2Career helps 11th, 12th, and college students gain career clarity, build future-ready skills, and take confident steps toward the opportunities ahead.
-          </p>
-
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+        <div className="mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 sm:py-8 lg:px-10">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link to="/programs" className="inline-flex items-center justify-center gap-3 rounded-full bg-primary px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:bg-blue-700">
               Explore Programs
               <span aria-hidden="true">→</span>
@@ -295,13 +258,12 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/20 pt-5 text-xs font-semibold text-slate-300">
-            <span><strong className="mr-1 text-lg text-white">11th–12th</strong> students</span>
-            <span><strong className="mr-1 text-lg text-white">College</strong> ready</span>
-            <span><strong className="mr-1 text-lg text-white">1:1</strong> guidance</span>
+          <div className="mt-6 grid grid-cols-3 items-center gap-2 border-t border-white/30 pt-4 text-center text-[10px] font-semibold leading-4 text-white sm:gap-x-8 sm:text-left sm:text-xs sm:pt-5">
+            <span>11th–12th Students</span>
+            <span>College Ready</span>
+            <span>1:1 Guidance</span>
           </div>
         </div>
-      </div>
       </section>
 
       <section id="about" className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
@@ -314,10 +276,10 @@ export default function HomePage() {
               <span className="h-px w-8 bg-cyan" />
             </div>
             <h2 className="text-3xl font-black tracking-tight text-navy sm:text-4xl lg:text-5xl">
-              The Gap Between Education and Career
+              Bridge What You Learn to What Comes Next
             </h2>
             <p className="mt-6 text-base leading-8 text-slate-600 sm:text-lg">
-              Students often reach college without enough career clarity, practical exposure, or future-ready skills. Skill2Career helps close that gap with the direction and experiences they need to move forward with confidence.
+              Career choices can feel far away from what students learn in class. Skill2Career brings the two closer with practical experiences, clearer guidance, and skills students can carry into their next chapter.
             </p>
           </div>
 
@@ -368,7 +330,7 @@ export default function HomePage() {
               </div>
               <h2 className="text-3xl font-black tracking-tight text-navy sm:text-4xl lg:text-5xl">Skills That Prepare You for the Future</h2>
               <p className="mt-5 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
-                Focused learning experiences to help you make informed choices, build practical confidence, and take your next step with purpose.
+                Practical learning to help you explore your interests, make informed choices, and take your next step with purpose.
               </p>
             </div>
             <div className="hidden text-right text-sm font-semibold text-slate-400 lg:block">Learn by doing. Grow with direction.</div>
@@ -505,7 +467,7 @@ export default function HomePage() {
               <span className="h-px w-8 bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.8)]" />
             </div>
             <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl">Why Students Trust Skill2Career</h2>
-            <p className="mt-5 text-base leading-8 text-slate-300 sm:text-lg">Built by students, for students — with practical learning, clear guidance, and opportunities that help you move forward.</p>
+            <p className="mt-5 text-base leading-8 text-slate-300 sm:text-lg">Built by students, for students — connecting practical learning with clear guidance and opportunities to grow.</p>
           </div>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
@@ -526,7 +488,7 @@ export default function HomePage() {
                 <div className="mx-auto max-w-3xl text-center">
                   <p className="testimonial-eyebrow text-xs font-bold uppercase tracking-[0.2em]">Real voices. Real progress.</p>
                   <h3 className="testimonial-heading mt-3 text-3xl font-black tracking-tight sm:text-4xl">What Students Say</h3>
-                  <p className="testimonial-intro mt-3 text-sm leading-7 sm:text-base">A few words from learners who joined our webinars and learning sessions.</p>
+                  <p className="testimonial-intro mt-3 text-sm leading-7 sm:text-base">                  Hear from learners who have taken a step toward new skills through our webinars and sessions.</p>
                 </div>
                 <div aria-label="Scroll through student testimonials" className="testimonial-track-viewport" role="region" tabIndex={0}>
                   <div className="testimonial-track" ref={testimonialTrackRef}>
