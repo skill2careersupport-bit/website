@@ -85,6 +85,10 @@ img {
   opacity: 0.08 !important;
 }
 
+.about-page .about-hero__earth {
+  opacity: 0.85 !important;
+}
+
 .about-page .about-hero__shade,
 .about-page .about-cta__shade {
   background: linear-gradient(110deg, rgba(241, 249, 246, 0.96), rgba(241, 249, 246, 0.76)) !important;
