@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import skill2careerLogo from '../assets/skill2career-logo.png'
 
 const navItems = [
@@ -12,58 +12,89 @@ const navItems = [
 
 export default function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const menuButtonRef = useRef(null)
+
+  useEffect(() => {
+    if (!menuOpen) return undefined
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [menuOpen])
 
   return (
     <div className="min-h-screen bg-background text-slate-800">
-      <header className="relative z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="flex min-h-[76px] items-center justify-between gap-6">
-            <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setMenuOpen(false)}>
-              <img src={skill2careerLogo} alt="Skill2Career" className="h-20 w-20 shrink-0 object-contain" />
-            </Link>
+      <header className="fixed inset-x-0 top-3 z-[100] px-4 sm:top-4 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-[26px] border border-white/80 bg-white/80 shadow-[0_12px_38px_rgba(15,23,42,0.12)] backdrop-blur-xl transition-shadow duration-300 hover:shadow-[0_16px_44px_rgba(15,23,42,0.16)]">
+            <div className="flex min-h-[68px] items-center justify-between gap-3 px-4 sm:px-6">
+              <Link to="/" className="flex shrink-0 items-center" onClick={() => setMenuOpen(false)}>
+                <img src={skill2careerLogo} alt="Skill2Career" className="h-14 w-14 shrink-0 object-contain" />
+              </Link>
 
-            <nav className="hidden items-center gap-6 text-[13px] font-semibold text-slate-600 lg:flex xl:gap-7">
-              {navItems.map((item) => (
-                <Link key={item.label} to={item.path} className="transition hover:text-primary">
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-
-            <button
-              type="button"
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 text-navy transition hover:border-primary hover:text-primary lg:hidden"
-              onClick={() => setMenuOpen((open) => !open)}
-            >
-              <span className="sr-only">Menu</span>
-              <span className="flex w-5 flex-col gap-1.5">
-                <span className="h-0.5 w-full bg-current" />
-                <span className="h-0.5 w-full bg-current" />
-                <span className="h-0.5 w-full bg-current" />
-              </span>
-            </button>
-          </div>
-
-          {menuOpen && (
-            <div className="border-t border-slate-100 py-4 lg:hidden">
-              <nav className="flex flex-col gap-1 text-sm font-semibold text-slate-600">
+              <nav aria-label="Main navigation" className="hidden items-center gap-1.5 text-[13px] font-semibold text-slate-600 md:flex lg:gap-2">
                 {navItems.map((item) => (
-                  <Link
+                  <NavLink
                     key={item.label}
                     to={item.path}
-                    className="rounded-lg px-3 py-2.5 transition hover:bg-blue-50 hover:text-primary"
-                    onClick={() => setMenuOpen(false)}
+                    className={({ isActive }) => `relative rounded-full px-3 py-2 transition-colors duration-200 after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:text-primary hover:after:scale-x-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${isActive ? 'text-primary after:scale-x-100' : ''}`}
                   >
                     {item.label}
-                  </Link>
+                  </NavLink>
                 ))}
               </nav>
+
+              <button
+                ref={menuButtonRef}
+                type="button"
+                aria-controls="mobile-navigation"
+                aria-expanded={menuOpen}
+                aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/90 text-navy transition-colors hover:border-primary/40 hover:bg-blue-50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 md:hidden"
+                onClick={() => setMenuOpen((open) => !open)}
+              >
+                <span className="sr-only">Menu</span>
+                <span aria-hidden="true" className="flex w-5 flex-col gap-1.5">
+                  <span className={`h-0.5 w-full rounded-full bg-current transition-transform duration-200 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
+                  <span className={`h-0.5 w-full rounded-full bg-current transition-opacity duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
+                  <span className={`h-0.5 w-full rounded-full bg-current transition-transform duration-200 ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+                </span>
+              </button>
             </div>
-          )}
+
+            <div
+              inert={!menuOpen}
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out md:hidden ${menuOpen ? 'grid-rows-[1fr] opacity-100' : 'pointer-events-none grid-rows-[0fr] opacity-0'}`}
+            >
+              <div className="overflow-hidden">
+                <nav id="mobile-navigation" aria-label="Mobile navigation" className="flex flex-col border-t border-slate-200/70 px-4 py-3 text-sm font-semibold text-slate-600">
+                  {navItems.map((item) => (
+                    <NavLink
+                      key={item.label}
+                      to={item.path}
+                      className={({ isActive }) => `rounded-xl px-3 py-2.5 transition-colors duration-200 hover:bg-blue-50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${isActive ? 'bg-blue-50 text-primary' : ''}`}
+                      onClick={() => {
+                        setMenuOpen(false)
+                        menuButtonRef.current?.focus()
+                      }}
+                    >
+                      {item.label}
+                    </NavLink>
+                  ))}
+                </nav>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
+
+      <div aria-hidden="true" className="h-[84px] sm:h-[88px]" />
 
       <main>{children}</main>
 

@@ -22,7 +22,6 @@ html {
 
 body {
   margin: 0;
-  min-width: 320px;
   min-height: 100vh;
   background: #f8fafc;
 }
@@ -68,5 +67,17 @@ img {
   }
   50% {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-network__nodes,
+  .hero-network__particles {
+    animation: none;
+    display: none;
   }
 }

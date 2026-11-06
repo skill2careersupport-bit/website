@@ -4,8 +4,20 @@ import { useEffect, useRef } from 'react'
 
 export default function HomePage() {
   const carouselRef = useRef(null)
+  const testimonialScrollRef = useRef(null)
+  const testimonialViewportRef = useRef(null)
+  const testimonialTrackRef = useRef(null)
   const isInteractingRef = useRef(false)
   const lastScrollLeftRef = useRef(0)
+
+  const testimonials = [
+    { quote: 'Everything was great.', name: 'Khushal Sachin Ghanekar', session: 'SQL Webinar', tone: 'cyan' },
+    { quote: 'You are doing well.', name: 'Sonam Kumari', session: 'Python Webinar', tone: 'blue' },
+    { quote: 'It is a great session.', name: 'Saatvik Bhardwaj', session: 'HTML & CSS', tone: 'violet' },
+    { quote: 'It was awesome.', name: 'Rishika', session: 'AI Webinar', tone: 'cyan' },
+    { quote: 'Overall the best.', name: 'Tanish Deepak Parab', session: 'Git and GitHub Webinar', tone: 'blue' },
+    { quote: 'Thank you for the informative webinar. It was really helpful for beginners.', name: 'DHEERAJ CHAUHAN', session: 'No-Code Website Webinar', tone: 'violet' },
+  ]
 
   const categories = [
     {
@@ -81,26 +93,30 @@ export default function HomePage() {
     if (!carousel || !firstGroup || !track) return undefined
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const hoverCapable = window.matchMedia('(hover: hover)')
+    const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)')
     const getLoopDistance = () => {
       const gap = Number.parseFloat(window.getComputedStyle(track).columnGap) || 0
       return firstGroup.getBoundingClientRect().width + gap
     }
+    const canAnimate = () => hoverCapable.matches && !reducedMotion.matches
 
     carousel.scrollLeft = 0
     lastScrollLeftRef.current = carousel.scrollLeft
 
-    let frameId
+    let frameId = 0
     let previousTime
     let pendingScroll = 0
     const animate = (time) => {
+      frameId = 0
+      if (!canAnimate()) return
+
       if (previousTime === undefined) previousTime = time
       const elapsed = Math.min(time - previousTime, 50)
       previousTime = time
 
-      const isHovered = hoverCapable.matches && carousel.matches(':hover')
+      const isHovered = carousel.matches(':hover')
       const hasFocus = carousel.contains(document.activeElement)
-      if (!reducedMotion.matches && !isInteractingRef.current && !isHovered && !hasFocus) {
+      if (!isInteractingRef.current && !isHovered && !hasFocus) {
         pendingScroll += elapsed * 0.03
         if (pendingScroll >= 1) {
           carousel.scrollLeft = Math.round(carousel.scrollLeft + pendingScroll)
@@ -111,7 +127,11 @@ export default function HomePage() {
         }
       }
 
-      frameId = window.requestAnimationFrame(animate)
+      scheduleAnimation()
+    }
+
+    const scheduleAnimation = () => {
+      if (canAnimate() && !frameId) frameId = window.requestAnimationFrame(animate)
     }
 
     const handleScroll = () => {
@@ -127,11 +147,86 @@ export default function HomePage() {
     }
 
     carousel.addEventListener('scroll', handleScroll, { passive: true })
-    frameId = window.requestAnimationFrame(animate)
+    reducedMotion.addEventListener('change', scheduleAnimation)
+    hoverCapable.addEventListener('change', scheduleAnimation)
+    scheduleAnimation()
 
     return () => {
       window.cancelAnimationFrame(frameId)
       carousel.removeEventListener('scroll', handleScroll)
+      reducedMotion.removeEventListener('change', scheduleAnimation)
+      hoverCapable.removeEventListener('change', scheduleAnimation)
+    }
+  }, [])
+
+  useEffect(() => {
+    const scrollSection = testimonialScrollRef.current
+    const viewport = testimonialViewportRef.current
+    const track = testimonialTrackRef.current
+    if (!scrollSection || !viewport || !track) return undefined
+
+    const cards = Array.from(track.querySelectorAll('.testimonial-card'))
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const mobileLayout = window.matchMedia('(max-width: 767px)')
+    let frameId = 0
+
+    const updateScrollAnimation = () => {
+      frameId = 0
+
+      if (reducedMotion.matches || mobileLayout.matches) {
+        scrollSection.style.height = ''
+        track.style.transform = ''
+        track.style.paddingInline = ''
+        cards.forEach((card) => {
+          card.style.opacity = ''
+          card.style.transform = ''
+        })
+        return
+      }
+
+      const sidePadding = Math.max(0, (viewport.clientWidth - cards[0].getBoundingClientRect().width) / 2)
+      track.style.paddingInline = `${sidePadding}px`
+      const horizontalDistance = Math.max(0, track.scrollWidth - viewport.clientWidth)
+      scrollSection.style.height = `${window.innerHeight + horizontalDistance}px`
+
+      const start = scrollSection.getBoundingClientRect().top + window.scrollY
+      const scrollRange = Math.max(1, scrollSection.offsetHeight - window.innerHeight)
+      const progress = Math.min(1, Math.max(0, (window.scrollY - start) / scrollRange))
+      const translateX = -horizontalDistance * progress
+      track.style.transform = `translate3d(${translateX}px, 0, 0)`
+
+      const viewportCenter = viewport.clientWidth / 2
+      cards.forEach((card) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2 + translateX
+        const distance = Math.min(1, Math.abs(cardCenter - viewportCenter) / (viewport.clientWidth * 0.7))
+        card.style.opacity = `${1 - distance * 0.22}`
+        card.style.transform = `translate3d(0, ${distance * 12}px, 0) scale(${1 - distance * 0.045})`
+      })
+    }
+
+    const scheduleUpdate = (force = false) => {
+      if (!force && (reducedMotion.matches || mobileLayout.matches)) return
+      if (!frameId) frameId = window.requestAnimationFrame(updateScrollAnimation)
+    }
+    const handleScroll = () => scheduleUpdate()
+    const handleViewportChange = () => scheduleUpdate(true)
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleViewportChange)
+    reducedMotion.addEventListener('change', handleViewportChange)
+    mobileLayout.addEventListener('change', handleViewportChange)
+    const resizeObserver = new ResizeObserver(handleViewportChange)
+    resizeObserver.observe(viewport)
+    resizeObserver.observe(track)
+    updateScrollAnimation()
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleViewportChange)
+      reducedMotion.removeEventListener('change', handleViewportChange)
+      mobileLayout.removeEventListener('change', handleViewportChange)
+      resizeObserver.disconnect()
+      window.cancelAnimationFrame(frameId)
     }
   }, [])
 
@@ -354,7 +449,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="testimonials" className="trust-section relative overflow-hidden bg-[#030712] py-20 text-white sm:py-24 lg:py-28">
+      <section id="testimonials" className="trust-section relative overflow-x-clip bg-[#030712] py-20 text-white sm:py-24 lg:py-28">
         <style>{`
           .trust-section { isolation: isolate; }
           .trust-section::before { content: ''; position: absolute; inset: 0; z-index: -2; opacity: .48; background-image: radial-gradient(circle at 12% 20%, rgba(103,232,249,.7) 0 1px, transparent 1.5px), radial-gradient(circle at 78% 18%, rgba(255,255,255,.5) 0 1px, transparent 1.5px), radial-gradient(circle at 62% 76%, rgba(167,139,250,.45) 0 1px, transparent 1.5px); background-size: 260px 220px, 370px 300px, 460px 360px; animation: trust-stars 24s linear infinite; }
@@ -363,9 +458,44 @@ export default function HomePage() {
           .trust-card:hover { transform: translateY(-6px); border-color: rgba(103,232,249,.62); box-shadow: 0 0 28px rgba(34,211,238,.16), 0 20px 55px rgba(0,0,0,.28); }
           .trust-reveal { animation: trust-reveal .7s ease both; }
           .trust-reveal:nth-child(2) { animation-delay: .08s; }.trust-reveal:nth-child(3) { animation-delay: .16s; }.trust-reveal:nth-child(4) { animation-delay: .24s; }
+          .testimonial-scroll-shell { position: relative; }
+          .testimonial-sticky { position: sticky; top: 0; display: flex; min-height: 100vh; min-height: 100svh; align-items: center; overflow: hidden; }
+          .testimonial-sticky::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 18% 55%, rgba(37,99,235,.2), transparent 42%), radial-gradient(ellipse at 82% 40%, rgba(124,58,237,.16), transparent 38%); }
+          .testimonial-content { position: relative; z-index: 1; width: 100%; padding-top: 40px; padding-bottom: 48px; }
+          .testimonial-track-viewport { overflow: hidden; width: 100%; margin-top: 36px; }
+          .testimonial-track { display: flex; width: max-content; gap: 24px; will-change: transform; }
+          .testimonial-card { display: flex; width: clamp(310px, 38vw, 430px); min-height: 300px; flex: 0 0 clamp(310px, 38vw, 430px); flex-direction: column; border: 1px solid rgba(255,255,255,.78); border-radius: 28px; padding: 30px; background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(241,245,249,.88)); box-shadow: inset 0 1px rgba(255,255,255,.9), 0 22px 55px rgba(0,0,0,.2); backdrop-filter: blur(18px); transition: border-color .3s ease, box-shadow .3s ease; }
+          .testimonial-card:hover { border-color: rgba(255,255,255,.98); box-shadow: inset 0 1px rgba(255,255,255,.95), 0 24px 60px rgba(16,87,180,.22); }
+          .testimonial-quote-mark { height: 50px; font-family: Georgia, serif; font-size: 76px; font-weight: 700; line-height: .95; letter-spacing: -.08em; }
+          .testimonial-quote { flex: 1; margin-top: 14px; color: #334155; font-size: 18px; line-height: 1.8; }
+          .testimonial-meta { margin-top: 26px; border-top: 1px solid rgba(15,23,42,.12); padding-top: 20px; }
+          .testimonial-name { color: #0f172a; font-size: 16px; font-weight: 750; line-height: 1.5; }
+          .testimonial-session { margin-top: 5px; font-size: 14px; font-weight: 600; }
+          .testimonial-card--cyan .testimonial-quote-mark, .testimonial-card--cyan .testimonial-session { color: #0e7490; }
+          .testimonial-card--blue .testimonial-quote-mark, .testimonial-card--blue .testimonial-session { color: #1d4ed8; }
+          .testimonial-card--violet .testimonial-quote-mark, .testimonial-card--violet .testimonial-session { color: #6d28d9; }
+          .testimonial-eyebrow { color: #a5f3fc; }
+          .testimonial-heading { color: #fff; }
+          .testimonial-intro { color: #cbd5e1; }
+          @media (max-width: 767px) {
+            .testimonial-sticky { position: relative; min-height: 0; }
+            .testimonial-content { padding-top: 42px; padding-bottom: 54px; }
+            .testimonial-track-viewport { overflow-x: auto; overflow-y: hidden; margin-right: -20px; margin-left: -20px; padding-bottom: 12px; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: rgba(125,211,252,.45) transparent; }
+            .testimonial-track { gap: 16px; padding: 0 20px; }
+            .testimonial-card { width: min(84vw, 360px); min-height: 280px; flex-basis: min(84vw, 360px); padding: 26px; scroll-snap-align: center; }
+            .testimonial-quote { font-size: 16px; }
+          }
           @keyframes trust-stars { to { background-position: 260px 220px, -370px 300px, 460px -360px; } }
           @keyframes trust-reveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-          @media (prefers-reduced-motion: reduce) { .trust-section::before, .trust-reveal { animation: none; } .trust-card { transition: none; } }
+          @media (prefers-reduced-motion: reduce) {
+            .trust-section::before, .trust-reveal { animation: none; }
+            .trust-card, .testimonial-card { transition: none; }
+            .testimonial-scroll-shell { height: auto !important; }
+            .testimonial-sticky { position: relative; min-height: 0; }
+            .testimonial-track-viewport { overflow: visible; }
+            .testimonial-track { width: 100%; flex-wrap: wrap; justify-content: center; gap: 20px; transform: none !important; }
+            .testimonial-card { width: min(100%, 430px); flex-basis: min(100%, 430px); opacity: 1 !important; transform: none !important; }
+          }
         `}</style>
         <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-3xl text-center">
@@ -385,14 +515,35 @@ export default function HomePage() {
             <article className="trust-card trust-reveal rounded-3xl p-7"><div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/40 bg-cyan-400/10 text-sm font-black text-cyan-200 shadow-[0_0_20px_rgba(34,211,238,0.14)]">04</div><h3 className="mt-6 text-xl font-bold text-white">Future-Ready</h3><p className="mt-3 text-sm leading-7 text-slate-300">Build the technical, creative, and professional skills needed for tomorrow's opportunities.</p></article>
           </div>
 
-          <div className="mx-auto mt-20 max-w-3xl text-center lg:mt-28"><h3 className="text-2xl font-black tracking-tight text-white sm:text-3xl">What Students Say</h3></div>
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <article className="trust-card trust-reveal rounded-3xl p-7"><div className="text-4xl font-black leading-none text-cyan-300">“</div><p className="mt-4 text-base leading-8 text-slate-200">Everything was great.</p><div className="mt-7 border-t border-white/10 pt-5"><p className="font-bold text-white">Khushal Sachin Ghanekar</p><p className="mt-1 text-sm text-cyan-200">SQL Webinar</p></div></article>
-            <article className="trust-card trust-reveal rounded-3xl p-7"><div className="text-4xl font-black leading-none text-blue-300">“</div><p className="mt-4 text-base leading-8 text-slate-200">You are doing well.</p><div className="mt-7 border-t border-white/10 pt-5"><p className="font-bold text-white">Sonam Kumari</p><p className="mt-1 text-sm text-blue-200">Python Webinar</p></div></article>
-            <article className="trust-card trust-reveal rounded-3xl p-7"><div className="text-4xl font-black leading-none text-violet-300">“</div><p className="mt-4 text-base leading-8 text-slate-200">It is a great session.</p><div className="mt-7 border-t border-white/10 pt-5"><p className="font-bold text-white">Saatvik Bhardwaj</p><p className="mt-1 text-sm text-violet-200">HTML &amp; CSS</p></div></article>
-            <article className="trust-card trust-reveal rounded-3xl p-7"><div className="text-4xl font-black leading-none text-cyan-300">“</div><p className="mt-4 text-base leading-8 text-slate-200">It was awesome.</p><div className="mt-7 border-t border-white/10 pt-5"><p className="font-bold text-white">Rishika</p><p className="mt-1 text-sm text-cyan-200">AI Webinar</p></div></article>
-            <article className="trust-card trust-reveal rounded-3xl p-7"><div className="text-4xl font-black leading-none text-blue-300">“</div><p className="mt-4 text-base leading-8 text-slate-200">Overall the best.</p><div className="mt-7 border-t border-white/10 pt-5"><p className="font-bold text-white">Tanish Deepak Parab</p><p className="mt-1 text-sm text-blue-200">Git and GitHub Webinar</p></div></article>
-            <article className="trust-card trust-reveal rounded-3xl p-7"><div className="text-4xl font-black leading-none text-violet-300">“</div><p className="mt-4 text-base leading-8 text-slate-200">Thank you for the informative webinar. It was really helpful for beginners.</p><div className="mt-7 border-t border-white/10 pt-5"><p className="font-bold text-white">DHEERAJ CHAUHAN</p><p className="mt-1 text-sm text-violet-200">No-Code Website Webinar</p></div></article>
+          <div
+            aria-label="Student testimonials"
+            className="testimonial-scroll-shell"
+            ref={testimonialScrollRef}
+            role="region"
+          >
+            <div className="testimonial-sticky" ref={testimonialViewportRef}>
+              <div className="testimonial-content w-full">
+                <div className="mx-auto max-w-3xl text-center">
+                  <p className="testimonial-eyebrow text-xs font-bold uppercase tracking-[0.2em]">Real voices. Real progress.</p>
+                  <h3 className="testimonial-heading mt-3 text-3xl font-black tracking-tight sm:text-4xl">What Students Say</h3>
+                  <p className="testimonial-intro mt-3 text-sm leading-7 sm:text-base">A few words from learners who joined our webinars and learning sessions.</p>
+                </div>
+                <div aria-label="Scroll through student testimonials" className="testimonial-track-viewport" role="region" tabIndex={0}>
+                  <div className="testimonial-track" ref={testimonialTrackRef}>
+                    {testimonials.map((testimonial) => (
+                      <article className={`testimonial-card testimonial-card--${testimonial.tone}`} key={testimonial.name}>
+                        <div aria-hidden="true" className="testimonial-quote-mark">“</div>
+                        <p className="testimonial-quote">{testimonial.quote}</p>
+                        <div className="testimonial-meta">
+                          <p className="testimonial-name">{testimonial.name}</p>
+                          <p className="testimonial-session">{testimonial.session}</p>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

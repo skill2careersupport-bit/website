@@ -75,7 +75,7 @@ export default function ProgramsPage() {
         @keyframes programs-drift { from { background-position: 0 0, 0 0, 0 0, 0 0; } to { background-position: 60px 40px, -40px 50px, 30px -35px, -25px 30px; } }
         @keyframes programs-slide-pop { from { opacity: 0; transform: translateY(28px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes programs-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.72); } }
-        @media (prefers-reduced-motion: reduce) { .programs-page *, .programs-page *::before, .programs-page *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+        @media (prefers-reduced-motion: reduce) { .programs-page *, .programs-page *::before, .programs-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
       `}</style>
 
       <section className="programs-hero">
