@@ -4,6 +4,15 @@ import { GoogleAuth } from 'google-auth-library'
 const SHEETS_SCOPE =
   'https://www.googleapis.com/auth/spreadsheets'
 
+const INQUIRY_TYPES = new Set([
+  'Student',
+  'School Representative',
+  'College Representative',
+  'Parent',
+  'Collaboration / Partnership',
+  'Other',
+])
+
 async function getAccessToken(clientEmail, privateKey) {
   const auth = new GoogleAuth({
     credentials: {
@@ -44,12 +53,17 @@ export default async function handler(req, res) {
 
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return sendJson(res, 400, {
-      error: 'Please provide a valid name, email, and message.',
+      error: 'Please provide valid contact details, inquiry type, and message.',
     })
   }
 
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   const email = typeof body.email === 'string' ? body.email.trim() : ''
+  const inquiryType =
+    typeof body.inquiryType === 'string' ? body.inquiryType.trim() : ''
+  const organization =
+    typeof body.organization === 'string' ? body.organization.trim() : ''
+  const subject = typeof body.subject === 'string' ? body.subject.trim() : ''
   const message =
     typeof body.message === 'string' ? body.message.trim() : ''
 
@@ -59,11 +73,14 @@ export default async function handler(req, res) {
     email.length < 3 ||
     email.length > 254 ||
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+    !INQUIRY_TYPES.has(inquiryType) ||
+    organization.length > 200 ||
+    subject.length > 200 ||
     message.length < 1 ||
     message.length > 5000
   ) {
     return sendJson(res, 400, {
-      error: 'Please provide a valid name, email, and message.',
+      error: 'Please provide valid contact details, inquiry type, and message.',
     })
   }
 
@@ -72,10 +89,6 @@ export default async function handler(req, res) {
   ?.replace(/^["']|["']$/g, '')
   ?.replace(/\\n/g, '\n')
   ?.trim();
-  // Add these lines temporarily for debugging:
-  console.log("DEBUG Email:", clientEmail);
-  console.log("DEBUG Key starts correctly:", privateKey?.startsWith("-----BEGIN PRIVATE KEY-----"));
-  console.log("DEBUG Key ends correctly:", privateKey?.endsWith("-----END PRIVATE KEY-----"));
   const spreadsheetId = process.env.GOOGLE_SHEET_ID?.trim()
 
   const missingVariables = [
@@ -97,7 +110,7 @@ export default async function handler(req, res) {
   try {
     const accessToken = await getAccessToken(clientEmail, privateKey)
 
-    const range = encodeURIComponent("'Contact Messages'!A:D")
+    const range = encodeURIComponent("'Contact Messages'!A:G")
     const appendUrl =
       `https://sheets.googleapis.com/v4/spreadsheets/` +
       `${encodeURIComponent(spreadsheetId)}/values/${range}:append` +
@@ -110,7 +123,15 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        values: [[new Date().toISOString(), name, email, message]],
+        values: [[
+          new Date().toISOString(),
+          name,
+          inquiryType,
+          organization,
+          subject,
+          email,
+          message,
+        ]],
       }),
     })
 
