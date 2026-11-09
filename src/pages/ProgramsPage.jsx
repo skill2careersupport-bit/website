@@ -1,6 +1,7 @@
 import brochure from '../assets/power-bi-webinar-brochure.png'
 import excelBrochure from '../assets/excel-data-analysis-webinar-brochure.png'
 import portfolioBrochure from '../assets/portfolio-website-webinar-brochure.png'
+import programsHeroImage from '../assets/programs-hero.jpg'
 
 const registrationUrl = 'https://unstop.com/p/webinar-on-power-bi-for-beginners-skill2career-1773070'
 const excelRegistrationUrl = 'https://unstop.com/workshops-webinars/data-analysis-with-excel-workshop-skill2career-1773093'
@@ -15,7 +16,8 @@ export default function ProgramsPage() {
         .programs-stars { background-image: radial-gradient(circle at 12% 20%, rgba(103,232,249,.72) 0 1px, transparent 1.5px), radial-gradient(circle at 76% 14%, rgba(255,255,255,.52) 0 1px, transparent 1.5px), radial-gradient(circle at 51% 65%, rgba(167,139,250,.48) 0 1px, transparent 1.5px), radial-gradient(circle at 90% 78%, rgba(96,165,250,.48) 0 1px, transparent 1.5px); background-size: 270px 220px, 340px 280px, 410px 320px, 500px 390px; animation: programs-drift 24s linear infinite; }
         .programs-grid { background-image: linear-gradient(rgba(103,232,249,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(103,232,249,.055) 1px, transparent 1px); background-size: 54px 54px; mask-image: linear-gradient(to bottom, black, transparent 82%); }
         .programs-container { position: relative; z-index: 2; width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-        .programs-hero { min-height: 570px; display: flex; align-items: center; overflow: hidden; background: radial-gradient(circle at 82% 35%, rgba(37,99,235,.22), transparent 30%), #020617; }
+        .programs-hero { isolation: isolate; min-height: 570px; display: flex; align-items: center; overflow: hidden; background-color: #f7fbf9; }
+        .programs-hero::before { position: absolute; z-index: 1; inset: 0; content: ''; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,.83), rgba(255,255,255,.83)), var(--programs-hero-image); background-size: cover; background-position: center; background-repeat: no-repeat; }
         .programs-hero::after { content: ''; position: absolute; width: 430px; height: 430px; right: -145px; top: 72px; border: 1px solid rgba(103,232,249,.16); border-radius: 50%; box-shadow: 0 0 0 34px rgba(103,232,249,.025), 0 0 0 68px rgba(167,139,250,.025); }
         .programs-hero__content { max-width: 760px; padding: 115px 0 105px; }
         .programs-label { display: inline-flex; align-items: center; gap: 10px; color: var(--programs-cyan); font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
@@ -78,7 +80,10 @@ export default function ProgramsPage() {
         @media (prefers-reduced-motion: reduce) { .programs-page *, .programs-page *::before, .programs-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
       `}</style>
 
-      <section className="programs-hero">
+      <section
+        className="programs-hero"
+        style={{ '--programs-hero-image': `url(${programsHeroImage})` }}
+      >
         <div className="programs-stars absolute inset-0" aria-hidden="true" />
         <div className="programs-grid absolute inset-0 opacity-50" aria-hidden="true" />
         <div className="programs-container">

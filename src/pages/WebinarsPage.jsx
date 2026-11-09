@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import participationCertificate from '../assets/participation-certificate.png'
 import appreciationCertificate from '../assets/appreciation-certificate.png'
+import webinarsHeroImage from '../assets/webinars-hero.jpg'
 
 const pastWebinars = [
   { title: 'SQL Webinar', description: 'Explore core SQL concepts and practise how databases help organize and retrieve information.', topic: 'SQL', tone: 'cyan' },
@@ -66,9 +67,10 @@ export default function WebinarsPage() {
         .webinars-stars { background-image: radial-gradient(circle at 12% 20%, rgba(103,232,249,.72) 0 1px, transparent 1.5px), radial-gradient(circle at 76% 14%, rgba(255,255,255,.52) 0 1px, transparent 1.5px), radial-gradient(circle at 51% 65%, rgba(167,139,250,.48) 0 1px, transparent 1.5px); background-size: 270px 220px, 340px 280px, 410px 320px; animation: webinars-drift 24s linear infinite; }
         .webinars-grid { background-image: linear-gradient(rgba(103,232,249,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(103,232,249,.055) 1px, transparent 1px); background-size: 54px 54px; mask-image: linear-gradient(to bottom, black, transparent 80%); }
         .webinars-container { position: relative; z-index: 2; width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-        .webinars-hero { min-height: 550px; display: flex; align-items: center; overflow: hidden; background: radial-gradient(circle at 82% 35%, rgba(37,99,235,.22), transparent 30%), #020617; }
-        .webinars-hero::after { content: ''; position: absolute; width: 430px; height: 430px; right: 0; top: 72px; border: 1px solid rgba(103,232,249,.16); border-radius: 50%; box-shadow: 0 0 0 34px rgba(103,232,249,.025), 0 0 0 68px rgba(167,139,250,.025); }
-        .webinars-hero__content { max-width: 760px; padding: 112px 0 102px; }
+        .webinars-hero { isolation: isolate; min-height: 570px; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: #f7fbf9; }
+        .webinars-hero::before { position: absolute; z-index: 1; inset: 0; content: ''; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,.83), rgba(255,255,255,.83)), var(--webinars-hero-image); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .webinars-hero__content { max-width: 820px; margin-inline: auto; padding: 82px 0 74px; text-align: center; }
+        .webinars-hero__content .webinars-label { justify-content: center; }
         .webinars-label { display: inline-flex; align-items: center; gap: 10px; color: var(--webinars-cyan); font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
         .webinars-label span { width: 30px; height: 1px; background: currentColor; box-shadow: 0 0 10px currentColor; }
         .webinars-title { margin: 22px 0 0; color: white; font-size: clamp(3rem, 7vw, 6.4rem); line-height: .98; letter-spacing: -.04em; font-weight: 900; }
@@ -112,12 +114,16 @@ export default function WebinarsPage() {
         .webinars-certificate-dialog img { display: block; width: 100%; height: auto; border-radius: 10px; }
         @media (max-width: 900px) { .webinars-cards, .webinars-feedback-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         @media (max-width: 900px) { .webinars-certificates__grid { gap: 16px; } }
-        @media (max-width: 700px) { .webinars-container { width: min(100% - 32px, 600px); }.webinars-hero { min-height: 480px; }.webinars-hero::after { display: none; }.webinars-hero__content { padding: 80px 0; }.webinars-section { padding: 72px 0 84px; }.webinars-section--deep { padding-top: 36px; }.webinars-cards, .webinars-feedback-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 32px; }.webinars-card { padding: 24px; } }
+        @media (max-width: 800px) { .webinars-hero { min-height: 420px; }.webinars-hero__content { padding: 70px 0 62px; } }
+        @media (max-width: 700px) { .webinars-container { width: min(100% - 32px, 600px); }.webinars-hero { min-height: 480px; }.webinars-hero__content { padding: 72px 0; }.webinars-section { padding: 72px 0 84px; }.webinars-section--deep { padding-top: 36px; }.webinars-cards, .webinars-feedback-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 32px; }.webinars-card { padding: 24px; } }
         @media (max-width: 700px) { .webinars-certificates { padding: 68px 0 80px; }.webinars-certificates__grid { grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }.webinars-certificate-card { padding: 12px; }.webinars-certificate-dialog { padding: 10px; } }
         @keyframes webinars-drift { to { background-position: 60px 40px, -40px 50px, 30px -35px; } }
         @media (prefers-reduced-motion: reduce) { .webinars-page *, .webinars-page *::before, .webinars-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
       `}</style>
-      <section className="webinars-hero">
+      <section
+        className="webinars-hero"
+        style={{ '--webinars-hero-image': `url(${webinarsHeroImage})` }}
+      >
         <div className="webinars-stars absolute inset-0" aria-hidden="true" />
         <div className="webinars-grid absolute inset-0 opacity-50" aria-hidden="true" />
         <div className="webinars-container"><div className="webinars-hero__content"><div className="webinars-label"><span />Skill2Career Sessions<span /></div><h1 className="webinars-title">Webinars &amp; Workshops</h1><p className="webinars-lede">Learn by doing, ask questions, and explore ideas that connect classroom knowledge with practical skills.</p></div></div>
