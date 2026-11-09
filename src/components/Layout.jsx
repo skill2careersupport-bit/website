@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import skill2careerLogo from '../assets/skill2career-logo.png'
+import skill2careerWhiteLogo from '../assets/skill2career-logo-white.png'
 
 const navItems = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
-  { label: 'Programs', path: '/programs' },
-  { label: 'Webinars', path: '/webinars' },
+  { label: 'Upcoming Programs', path: '/programs' },
+  { label: 'Past Programs', path: '/webinars' },
   { label: 'Contact', path: '/contact' },
 ]
 
@@ -100,10 +101,10 @@ export default function Layout({ children }) {
 
       <footer className="bg-navy text-white">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
-          <div className="grid gap-12 lg:grid-cols-[1.4fr_0.7fr_0.7fr_1.2fr] lg:gap-10">
+          <div className="grid gap-12 lg:grid-cols-[1.4fr_0.8fr_1.2fr_0.7fr] lg:gap-10">
             <div className="max-w-sm">
               <Link to="/" className="inline-flex items-center gap-3" onClick={() => setMenuOpen(false)}>
-                <img src={skill2careerLogo} alt="Skill2Career" className="h-32 w-32 shrink-0 object-contain" />
+                <img src={skill2careerWhiteLogo} alt="Skill2Career" className="h-32 w-32 shrink-0 object-contain" />
               </Link>
               <p className="mt-4 text-sm font-semibold text-cyan-200">Bridging learning to opportunity.</p>
               <p className="mt-4 text-sm leading-7 text-slate-300">
@@ -122,8 +123,17 @@ export default function Layout({ children }) {
               <nav className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-300">
                 <Link to="/" className="transition hover:text-cyan-200">Home</Link>
                 <Link to="/about" className="transition hover:text-cyan-200">About</Link>
-                <Link to="/programs" className="transition hover:text-cyan-200">Programs</Link>
-                <Link to="/webinars" className="transition hover:text-cyan-200">Webinars</Link>
+                <Link to="/programs" className="transition hover:text-cyan-200">Upcoming Programs</Link>
+                <Link to="/webinars" className="transition hover:text-cyan-200">Past Programs</Link>
+              </nav>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-white">Downloads</h2>
+              <nav aria-label="Downloads" className="mt-5 flex flex-col items-start gap-3 text-sm text-slate-300">
+                <a href="/downloads/school-session-agenda.pdf" download className="transition-colors hover:text-cyan">School Session Agenda (PDF)</a>
+                <a href="/downloads/college-session-agenda.pdf" download className="transition-colors hover:text-cyan">College Session Agenda (PDF)</a>
+                <a href="/downloads/skill2career-brochure.pdf" download className="transition-colors hover:text-cyan">Skill2Career Brochure (PDF)</a>
               </nav>
             </div>
 
@@ -133,16 +143,6 @@ export default function Layout({ children }) {
                 <Link to="/contact" className="transition hover:text-cyan-200">Contact</Link>
                 <Link to="/faq" className="transition hover:text-cyan-200">FAQ</Link>
               </nav>
-            </div>
-
-            <div>
-              <h2 className="text-sm font-bold uppercase tracking-[0.16em] text-white">Stay in the loop</h2>
-              <p className="mt-5 text-sm leading-7 text-slate-300">Get useful learning ideas, upcoming sessions, and opportunities worth exploring.</p>
-              <form className="mt-5 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" onSubmit={(event) => event.preventDefault()}>
-                <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-                <input id="newsletter-email" type="email" placeholder="Your email address" className="min-w-0 flex-1 rounded-full border border-slate-600 bg-slate-800 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-400 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-300/20" />
-                <button type="submit" className="rounded-full bg-cyan px-5 py-3 text-sm font-bold text-navy transition hover:bg-cyan-200">Subscribe</button>
-              </form>
             </div>
           </div>
 
