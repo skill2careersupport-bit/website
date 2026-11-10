@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import participationCertificate from '../assets/participation-certificate.png'
 import appreciationCertificate from '../assets/appreciation-certificate.png'
 import webinarsHeroImage from '../assets/webinars-hero.jpg'
+import pastPrograms from '../data/pastPrograms'
 
 const pastWebinars = [
   { title: 'SQL Webinar', description: 'Explore core SQL concepts and practise how databases help organize and retrieve information.', topic: 'SQL', tone: 'cyan' },
@@ -10,6 +11,7 @@ const pastWebinars = [
   { title: 'AI Webinar', description: 'Discover the fundamentals of artificial intelligence and examples of how it is used in the real world.', topic: 'Artificial intelligence', tone: 'cyan' },
   { title: 'Git & GitHub Webinar', description: 'Understand version control and how developers use Git and GitHub to collaborate on projects.', topic: 'Version control', tone: 'blue' },
   { title: 'No-Code Website Webinar', description: 'See how no-code tools can help turn an idea into a simple website without traditional coding.', topic: 'No-code development', tone: 'purple' },
+  ...pastPrograms,
 ]
 
 const feedback = [
@@ -90,6 +92,12 @@ export default function WebinarsPage() {
         .webinars-card p { position: relative; z-index: 1; margin: 13px 0 0; color: #a9bad3; line-height: 1.8; }
         .webinars-card__status { position: relative; z-index: 1; display: inline-flex; width: fit-content; margin-top: 24px; border: 1px solid rgba(103,232,249,.3); border-radius: 999px; padding: 6px 10px; color: var(--webinars-cyan); background: rgba(34,211,238,.07); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
         .webinars-card__topic { position: relative; z-index: 1; margin-top: 22px !important; color: var(--webinars-cyan) !important; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .webinars-card__poster { position: relative; z-index: 1; display: block; width: 100%; height: 220px; margin-top: 18px; border-radius: 12px; background: #edf6f3; object-fit: contain; }
+        .webinars-card__program-details { position: relative; z-index: 1; margin-top: 18px; color: #506971; line-height: 1.7; }
+        .webinars-card__program-details summary { color: #0f7774; font-size: .85rem; font-weight: 800; cursor: pointer; }
+        .webinars-card__program-details p { margin-top: 12px; }
+        .webinars-card__program-details ul { display: grid; gap: 6px; margin: 8px 0 0; padding-left: 20px; font-size: .9rem; }
+        .webinars-card__event-link { display: inline-block; margin-top: 14px; color: #0f7774; font-size: .9rem; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
         .webinars-feedback-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
         .webinars-feedback-card { min-height: 270px; }
         .webinars-feedback-card .webinars-card__icon { font-size: 2rem; line-height: 1; }
@@ -128,7 +136,7 @@ export default function WebinarsPage() {
         <div className="webinars-grid absolute inset-0 opacity-50" aria-hidden="true" />
         <div className="webinars-container"><div className="webinars-hero__content"><div className="webinars-label"><span />Skill2Career Sessions<span /></div><h1 className="webinars-title">Webinars &amp; Workshops</h1><p className="webinars-lede">Learn by doing, ask questions, and explore ideas that connect classroom knowledge with practical skills.</p></div></div>
       </section>
-      <section className="webinars-section webinars-section--deep"><div className="webinars-container"><div className="webinars-label"><span />Past Sessions<span /></div><h2 className="webinars-heading">Past Webinars</h2><p className="webinars-copy">Revisit hands-on sessions that introduced students to useful tools, new ideas, and skills they can continue practising.</p><div className="webinars-cards">{pastWebinars.map((webinar, index) => <article className={`webinars-card webinars-card--${webinar.tone}`} key={webinar.title}><div className="webinars-card__icon">0{index + 1}</div><h2>{webinar.title}</h2><p>{webinar.description}</p><p className="webinars-card__topic">{webinar.topic}</p><div className="webinars-card__status">Past Webinar</div></article>)}</div></div></section>
+      <section className="webinars-section webinars-section--deep"><div className="webinars-container"><div className="webinars-label"><span />Past Sessions<span /></div><h2 className="webinars-heading">Past Webinars</h2><p className="webinars-copy">Revisit hands-on sessions that introduced students to useful tools, new ideas, and skills they can continue practising.</p><div className="webinars-cards">{pastWebinars.map((webinar, index) => <article className={`webinars-card webinars-card--${webinar.tone}`} key={webinar.title}><div className="webinars-card__icon">0{index + 1}</div><h2>{webinar.title}</h2><p>{webinar.description}</p>{webinar.image && <img className="webinars-card__poster" src={webinar.image} alt={webinar.imageAlt} />}<p className="webinars-card__topic">{webinar.topic}</p><div className="webinars-card__status">Past Webinar</div>{webinar.image && <details className="webinars-card__program-details"><summary>Program details</summary><p><strong>Overview:</strong> {webinar.programHeading}</p><p>{webinar.programIntro}</p><p><strong>Date:</strong> {webinar.date}</p><p><strong>Duration:</strong> {webinar.duration}</p><p><strong>Certificate:</strong> {webinar.certificate}</p><p><strong>Who can attend?</strong></p><ul>{webinar.audience.map((attendee) => <li key={attendee}>{attendee}</li>)}</ul><p><strong>Why join?</strong> {webinar.details}</p><a className="webinars-card__event-link" href={webinar.registrationUrl} target="_blank" rel="noopener noreferrer">View event registration</a></details>}</article>)}</div></div></section>
 
       <section className="webinars-section"><div className="webinars-container"><div className="webinars-label"><span />Student Feedback<span /></div><h2 className="webinars-heading">What Students Say</h2><p className="webinars-copy">Feedback from students who attended our webinars and learning sessions.</p><div className="webinars-feedback-grid">{feedback.map((entry) => <article className={`webinars-card webinars-card--${entry.tone} webinars-feedback-card`} key={entry.name}><div className="webinars-card__icon">“</div><p className="webinars-quote">{entry.quote}</p><h2>{entry.name}</h2><p>{entry.session}</p></article>)}</div></div></section>
 
