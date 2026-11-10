@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import FAQPage from './pages/FAQPage'
+import FutureXThemesPage from './pages/FutureXThemesPage'
 import HomePage from './pages/HomePage'
 import ProgramsPage from './pages/ProgramsPage'
 import WebinarsPage from './pages/WebinarsPage'
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/programs" element={<ProgramsPage />} />
+        <Route path="/programs/futurex-2026/themes" element={<FutureXThemesPage />} />
         <Route path="/webinars" element={<WebinarsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FAQPage />} />
