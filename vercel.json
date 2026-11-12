@@ -1,0 +1,17 @@
+{
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/about", "destination": "/about/index.html" },
+    { "source": "/about/", "destination": "/about/index.html" },
+    { "source": "/programs", "destination": "/programs/index.html" },
+    { "source": "/programs/", "destination": "/programs/index.html" },
+    { "source": "/webinars", "destination": "/webinars/index.html" },
+    { "source": "/webinars/", "destination": "/webinars/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/contact/", "destination": "/contact/index.html" },
+    { "source": "/programs/futurex-2026/themes", "destination": "/programs/futurex-2026/themes/index.html" },
+    { "source": "/programs/futurex-2026/themes/", "destination": "/programs/futurex-2026/themes/index.html" },
+    { "source": "/faq", "destination": "/faq/index.html" },
+    { "source": "/faq/", "destination": "/faq/index.html" }
+  ]
+}

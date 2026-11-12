@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
@@ -7,10 +8,50 @@ import FutureXThemesPage from './pages/FutureXThemesPage'
 import HomePage from './pages/HomePage'
 import ProgramsPage from './pages/ProgramsPage'
 import WebinarsPage from './pages/WebinarsPage'
+import { getPageMetadata, siteUrl } from './seo'
+
+function PageMetadata() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const { path, title, description } = getPageMetadata(pathname)
+    const canonicalUrl = `${siteUrl}${path}`
+
+    document.title = title
+
+    const setMetaContent = (selector, attribute, value, content) => {
+      let element = document.head.querySelector(selector)
+      if (!element) {
+        element = document.createElement('meta')
+        element.setAttribute(attribute, value)
+        document.head.append(element)
+      }
+      element.setAttribute('content', content)
+    }
+
+    setMetaContent('meta[name="description"]', 'name', 'description', description)
+    setMetaContent('meta[property="og:title"]', 'property', 'og:title', title)
+    setMetaContent('meta[property="og:description"]', 'property', 'og:description', description)
+    setMetaContent('meta[property="og:type"]', 'property', 'og:type', 'website')
+    setMetaContent('meta[property="og:url"]', 'property', 'og:url', canonicalUrl)
+    setMetaContent('meta[property="og:site_name"]', 'property', 'og:site_name', 'Skill2Career')
+
+    let canonical = document.head.querySelector('link[rel="canonical"]')
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.setAttribute('rel', 'canonical')
+      document.head.append(canonical)
+    }
+    canonical.setAttribute('href', canonicalUrl)
+  }, [pathname])
+
+  return null
+}
 
 function App() {
   return (
     <Layout>
+      <PageMetadata />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
