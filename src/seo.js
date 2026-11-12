@@ -3,45 +3,45 @@ export const siteUrl = 'https://www.skill2career.in.net'
 export const pageMetadata = [
   {
     path: '/',
-    title: 'Skill2Career | Acquire Skills. Build Careers.',
+    title: 'Skill2Career – Acquire Skills. Build Careers.',
     description:
-      'Skill2Career empowers students through career awareness, technology education, skill development programs, webinars and workshops.',
+      'Explore Skill2Career for career awareness, technology education, skill development, webinars and student learning opportunities.',
   },
   {
     path: '/about',
-    title: 'About Skill2Career | Career Awareness & Skill Development',
+    title: 'About Skill2Career – Our Mission & Vision',
     description:
-      'Learn how Skill2Career helps students explore career pathways, develop practical skills, and prepare for future opportunities.',
+      'Discover Skill2Career, a growing EdTech platform helping students explore career opportunities, develop essential skills and understand emerging technologies.',
   },
   {
     path: '/programs',
-    title: 'Upcoming Programs | Skill2Career',
+    title: 'Upcoming Programs & Workshops – Skill2Career',
     description:
-      'Explore upcoming Skill2Career programs for students, with practical learning experiences in technology, careers, and skill development.',
+      'Explore upcoming Skill2Career webinars, workshops and student programs designed to build practical knowledge and future-ready skills.',
   },
   {
     path: '/programs/futurex-2026/themes',
-    title: 'FutureX 2026 Project Themes | Skill2Career',
+    title: 'FutureX 2026 Ideathon – Project Themes',
     description:
-      'Explore the FutureX 2026 project themes and choose a challenge for your team to turn ideas into impactful solutions.',
+      'Explore the FutureX 2026 Ideathon project themes by Skill2Career. Discover innovation challenges and opportunities to present impactful ideas.',
   },
   {
     path: '/webinars',
-    title: 'Past Programs & Webinars | Skill2Career',
+    title: 'Past Webinars & Workshops – Skill2Career',
     description:
-      'Discover past Skill2Career programs, student webinars, workshops, learning resources, and moments of student recognition.',
+      'Explore previous Skill2Career webinars and workshops, discover what students learned and see highlights from our learning sessions.',
   },
   {
     path: '/contact',
-    title: 'Contact Skill2Career | Get in Touch',
+    title: 'Contact Skill2Career – Get in Touch',
     description:
-      'Contact Skill2Career with questions, ideas, or partnership inquiries about student career awareness and skill development.',
+      'Connect with Skill2Career for program enquiries, institutional collaborations, workshops and student learning opportunities.',
   },
   {
     path: '/faq',
-    title: 'Frequently Asked Questions | Skill2Career',
+    title: 'Frequently Asked Questions – Skill2Career',
     description:
-      'Find answers to common questions about Skill2Career programs, webinars, learning sessions, participation, and certificates.',
+      'Find answers to common questions about Skill2Career, our programs, webinars, workshops, registrations and learning opportunities.',
   },
 ]
 

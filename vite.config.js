@@ -4,9 +4,58 @@ import path from 'node:path'
 import { defineConfig } from 'vite'
 import { pageMetadata, siteUrl } from './src/seo.js'
 
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, (character) => {
+    const entities = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }
+    return entities[character]
+  })
+}
+
+function renderMetadata({ path: routePath, title, description }) {
+  const canonicalUrl = `${siteUrl}${routePath}`
+  const escapedTitle = escapeHtml(title)
+  const escapedDescription = escapeHtml(description)
+
+  return [
+    `<title>${escapedTitle}</title>`,
+    `<meta name="description" content="${escapedDescription}" />`,
+    `<link rel="canonical" href="${canonicalUrl}" />`,
+    `<meta property="og:title" content="${escapedTitle}" />`,
+    `<meta property="og:description" content="${escapedDescription}" />`,
+    '<meta property="og:type" content="website" />',
+    '<meta property="og:site_name" content="Skill2Career" />',
+    `<meta property="og:url" content="${canonicalUrl}" />`,
+  ].join('\n    ')
+}
+
+function replaceMetadataBlock(html, metadata) {
+  const metadataBlock = /<!-- seo-metadata-start -->[\s\S]*?<!-- seo-metadata-end -->/g
+  const matches = [...html.matchAll(metadataBlock)]
+  if (matches.length !== 1) {
+    throw new Error(`Expected one SEO metadata block, found ${matches.length}.`)
+  }
+  return html.replace(metadataBlock, renderMetadata(metadata))
+}
+
 function routeMetadataPages() {
   return {
     name: 'route-metadata-pages',
+    transformIndexHtml(html) {
+      const homeMetadata = renderMetadata(pageMetadata[0])
+      if (!html.includes('<!-- seo-metadata -->')) {
+        throw new Error('SEO metadata placeholder is missing from index.html.')
+      }
+      return html.replace(
+        '<!-- seo-metadata -->',
+        `<!-- seo-metadata-start -->\n    ${homeMetadata}\n    <!-- seo-metadata-end -->`,
+      )
+    },
     async writeBundle(outputOptions) {
       const outputDirectory = outputOptions.dir
       if (!outputDirectory) {
@@ -14,36 +63,21 @@ function routeMetadataPages() {
       }
 
       const outputRoot = path.resolve(outputDirectory)
-      const homepage = await readFile(path.join(outputRoot, 'index.html'), 'utf8')
+      const indexPath = path.join(outputRoot, 'index.html')
+      const homepage = await readFile(indexPath, 'utf8')
 
       for (const { path: routePath, title, description } of pageMetadata) {
         if (routePath === '/') continue
 
-        const canonicalUrl = `${siteUrl}${routePath}`
-        const html = homepage
-          .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
-          .replace(
-            /<meta\s+name="description"[\s\S]*?\/>/,
-            `<meta name="description" content="${description}" />`,
-          )
-          .replace(/<link\s+rel="canonical"[^>]*\/>/, `<link rel="canonical" href="${canonicalUrl}" />`)
-          .replace(
-            /<meta\s+property="og:title"[^>]*\/>/,
-            `<meta property="og:title" content="${title}" />`,
-          )
-          .replace(
-            /<meta\s+property="og:description"[\s\S]*?\/>/,
-            `<meta property="og:description" content="${description}" />`,
-          )
-          .replace(
-            /<meta\s+property="og:url"[^>]*\/>/,
-            `<meta property="og:url" content="${canonicalUrl}" />`,
-          )
+        const routeMetadata = { path: routePath, title, description }
+        const html = replaceMetadataBlock(homepage, routeMetadata)
 
         const pageDirectory = path.join(outputRoot, routePath.slice(1))
         await mkdir(pageDirectory, { recursive: true })
         await writeFile(path.join(pageDirectory, 'index.html'), html)
       }
+
+      await writeFile(indexPath, replaceMetadataBlock(homepage, pageMetadata[0]))
     },
   }
 }
