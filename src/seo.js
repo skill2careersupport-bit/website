@@ -1,4 +1,11 @@
 export const siteUrl = 'https://www.skill2career.in.net'
+export const socialMetadata = {
+  image: `${siteUrl}/og-image.png`,
+  imageWidth: '1200',
+  imageHeight: '630',
+  imageAlt: 'Skill2Career – Acquire Skills. Build Careers.',
+  twitterCard: 'summary_large_image',
+}
 
 export const pageMetadata = [
   {

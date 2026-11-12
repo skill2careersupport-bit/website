@@ -8,7 +8,7 @@ import FutureXThemesPage from './pages/FutureXThemesPage'
 import HomePage from './pages/HomePage'
 import ProgramsPage from './pages/ProgramsPage'
 import WebinarsPage from './pages/WebinarsPage'
-import { getPageMetadata, siteUrl } from './seo'
+import { getPageMetadata, siteUrl, socialMetadata } from './seo'
 
 function PageMetadata() {
   const { pathname } = useLocation()
@@ -35,6 +35,14 @@ function PageMetadata() {
     setMetaContent('meta[property="og:type"]', 'property', 'og:type', 'website')
     setMetaContent('meta[property="og:url"]', 'property', 'og:url', canonicalUrl)
     setMetaContent('meta[property="og:site_name"]', 'property', 'og:site_name', 'Skill2Career')
+    setMetaContent('meta[property="og:image"]', 'property', 'og:image', socialMetadata.image)
+    setMetaContent('meta[property="og:image:width"]', 'property', 'og:image:width', socialMetadata.imageWidth)
+    setMetaContent('meta[property="og:image:height"]', 'property', 'og:image:height', socialMetadata.imageHeight)
+    setMetaContent('meta[property="og:image:alt"]', 'property', 'og:image:alt', socialMetadata.imageAlt)
+    setMetaContent('meta[name="twitter:card"]', 'name', 'twitter:card', socialMetadata.twitterCard)
+    setMetaContent('meta[name="twitter:title"]', 'name', 'twitter:title', title)
+    setMetaContent('meta[name="twitter:description"]', 'name', 'twitter:description', description)
+    setMetaContent('meta[name="twitter:image"]', 'name', 'twitter:image', socialMetadata.image)
 
     let canonical = document.head.querySelector('link[rel="canonical"]')
     if (!canonical) {

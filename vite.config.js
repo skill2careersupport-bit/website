@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { defineConfig } from 'vite'
-import { pageMetadata, siteUrl } from './src/seo.js'
+import { pageMetadata, siteUrl, socialMetadata } from './src/seo.js'
 
 function escapeHtml(value) {
   return value.replace(/[&<>"']/g, (character) => {
@@ -31,6 +31,14 @@ function renderMetadata({ path: routePath, title, description }) {
     '<meta property="og:type" content="website" />',
     '<meta property="og:site_name" content="Skill2Career" />',
     `<meta property="og:url" content="${canonicalUrl}" />`,
+    `<meta property="og:image" content="${socialMetadata.image}" />`,
+    `<meta property="og:image:width" content="${socialMetadata.imageWidth}" />`,
+    `<meta property="og:image:height" content="${socialMetadata.imageHeight}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(socialMetadata.imageAlt)}" />`,
+    `<meta name="twitter:card" content="${socialMetadata.twitterCard}" />`,
+    `<meta name="twitter:title" content="${escapedTitle}" />`,
+    `<meta name="twitter:description" content="${escapedDescription}" />`,
+    `<meta name="twitter:image" content="${socialMetadata.image}" />`,
   ].join('\n    ')
 }
 
